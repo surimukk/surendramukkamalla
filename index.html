@@ -1,21 +1,388 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Surendra Mukkamalla</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Surendra Mukkamalla - Data, Cloud and AI Architect" />
+  <title>Surendra Mukkamalla | Data, Cloud & AI Architect</title>
+
+  <style>
+    :root {
+      --navy: #0f172a;
+      --navy-light: #18243b;
+      --orange: #f59e0b;
+      --white: #ffffff;
+      --page: #f4f7fb;
+      --text: #172033;
+      --muted: #60708a;
+      --border: #d8e0eb;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--page);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container {
+      width: min(1180px, 92%);
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      background: var(--navy);
+      color: var(--white);
+      border-bottom: 2px solid var(--orange);
+    }
+
+    nav {
+      min-height: 92px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .brand h1 {
+      font-size: 28px;
+      line-height: 1.1;
+    }
+
+    .brand p {
+      margin-top: 7px;
+      color: var(--orange);
+      font-size: 14px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 34px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #d6deec;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .nav-links a:hover {
+      color: var(--orange);
+    }
+
+    /* Hero */
+    .hero {
+      background: var(--navy);
+      color: var(--white);
+      padding: 95px 0 105px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      color: var(--orange);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 22px;
+    }
+
+    .hero h2 {
+      max-width: 1050px;
+      margin: 0 auto;
+      font-size: clamp(38px, 5vw, 66px);
+      line-height: 1.12;
+    }
+
+    .hero-copy {
+      max-width: 790px;
+      margin: 24px auto 0;
+      color: #c8d2e3;
+      font-size: 20px;
+    }
+
+    .tags {
+      margin-top: 36px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .tag {
+      border: 1px solid #53637d;
+      color: #bcc8dc;
+      padding: 9px 16px;
+      border-radius: 5px;
+      font-family: "Courier New", monospace;
+      letter-spacing: 1px;
+    }
+
+    /* Work */
+    section {
+      padding: 78px 0;
+    }
+
+    .section-label {
+      color: var(--orange);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(32px, 4vw, 48px);
+      line-height: 1.2;
+    }
+
+    .section-intro {
+      color: var(--muted);
+      font-size: 20px;
+      margin-top: 12px;
+      max-width: 800px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 42px;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 34px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    }
+
+    .card small {
+      color: #65748d;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 700;
+    }
+
+    .card h3 {
+      margin: 18px 0 14px;
+      font-size: 25px;
+    }
+
+    .card p {
+      color: var(--muted);
+    }
+
+    .card a {
+      display: inline-block;
+      margin-top: 24px;
+      color: #d97706;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    /* About */
+    .about {
+      background: var(--white);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 55px;
+      align-items: center;
+    }
+
+    .about-box {
+      background: var(--navy-light);
+      color: var(--white);
+      border-left: 5px solid var(--orange);
+      border-radius: 12px;
+      padding: 34px;
+    }
+
+    .about-box p {
+      color: #d4dbea;
+    }
+
+    /* Contact */
+    .contact {
+      text-align: center;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 25px;
+      background: var(--orange);
+      color: var(--navy);
+      padding: 13px 25px;
+      border-radius: 7px;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    footer {
+      background: var(--navy);
+      color: #aeb9cd;
+      text-align: center;
+      padding: 26px;
+    }
+
+    @media (max-width: 850px) {
+      nav {
+        flex-direction: column;
+        padding: 24px 0;
+      }
+
+      .nav-links {
+        gap: 18px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .cards,
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 70px 0 80px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <h1>Surendra Mukkamalla</h1>
+  <header>
+    <nav class="container">
+      <div class="brand">
+        <h1>Surendra Mukkamalla</h1>
+        <p>Data · Cloud · AI Architect</p>
+      </div>
 
-    <h2>Principal Data, Cloud & AI Architect</h2>
+      <ul class="nav-links">
+        <li><a href="#work">Work</a></li>
+        <li><a href="#expertise">Expertise</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
 
-    <p>
-        Welcome to my website.
-    </p>
+    <div class="hero container">
+      <p class="eyebrow">Building modern data and governed AI platforms</p>
 
-    <p>
-        20+ years of experience in Data Architecture,
-        Cloud Modernization, Snowflake, AWS,
-        Databricks, Airflow and AI.
-    </p>
+      <h2>
+        Enterprise architecture that turns data, cloud and AI into trusted production systems.
+      </h2>
+
+      <p class="hero-copy">
+        I design and deliver scalable data platforms, cloud modernization programs,
+        agentic AI solutions and governed analytics for enterprise organizations.
+      </p>
+
+      <div class="tags">
+        <span class="tag">20+ Years Enterprise Architecture</span>
+        <span class="tag">Snowflake & Databricks</span>
+        <span class="tag">AWS Cloud</span>
+        <span class="tag">Agentic AI & RAG</span>
+        <span class="tag">Data Engineering</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="work">
+      <div class="container">
+        <p class="section-label">Selected Work</p>
+        <h2 class="section-title">Architecture for modern enterprise platforms.</h2>
+        <p class="section-intro">
+          A simple starting point for presenting your strongest architecture and engineering work.
+        </p>
+
+        <div class="cards">
+          <article class="card">
+            <small>Data Architecture</small>
+            <h3>Cloud Data Modernization</h3>
+            <p>
+              Modernized enterprise data pipelines using AWS, Snowflake, Airflow,
+              reusable frameworks and governed medallion architecture.
+            </p>
+            <a href="#contact">View details →</a>
+          </article>
+
+          <article class="card">
+            <small>Artificial Intelligence</small>
+            <h3>Agentic AI Platforms</h3>
+            <p>
+              Designed governed agents, RAG workflows, model orchestration,
+              tool integration, evaluation and production observability.
+            </p>
+            <a href="#contact">View details →</a>
+          </article>
+
+          <article class="card">
+            <small>Platform Engineering</small>
+            <h3>Data Pipeline Frameworks</h3>
+            <p>
+              Built configuration-driven pipeline factories, reusable operators,
+              automated deployment standards and operational monitoring.
+            </p>
+            <a href="#contact">View details →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <div class="container about-grid">
+        <div>
+          <p class="section-label">About Me</p>
+          <h2 class="section-title">Principal architect with hands-on delivery experience.</h2>
+          <p class="section-intro">
+            I combine enterprise architecture leadership with hands-on engineering
+            across Snowflake, Databricks, AWS, Airflow, Python and generative AI.
+          </p>
+        </div>
+
+        <div class="about-box" id="expertise">
+          <h3>Core Expertise</h3>
+          <p>
+            Data architecture · Cloud modernization · Snowflake · Databricks · AWS ·
+            Airflow · Python · RAG · Agentic AI · Governance · Observability
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <div class="container">
+        <p class="section-label">Contact</p>
+        <h2 class="section-title">Let’s connect.</h2>
+        <p class="section-intro" style="margin-left:auto; margin-right:auto;">
+          Replace the email address below with your preferred professional email.
+        </p>
+        <a class="button" href="mailto:your-email@example.com">Email Surendra</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2026 Surendra Mukkamalla. All rights reserved.
+  </footer>
 </body>
 </html>
