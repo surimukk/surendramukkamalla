@@ -275,6 +275,31 @@ footer {
   .pattern-grid { grid-template-columns:1fr; }
   .compare { display:block; overflow-x:auto; }
 }
+
+/* Discourage copying while preserving normal reading and navigation. */
+.protected-content,
+.protected-content * {
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+}
+.protected-content a,
+.protected-content button,
+.protected-content input,
+.protected-content textarea,
+.protected-content select {
+  -webkit-user-select:auto;
+  -moz-user-select:auto;
+  -ms-user-select:auto;
+  user-select:auto;
+}
+.protected-content a:focus-visible,
+.protected-content button:focus-visible {
+  outline:3px solid #59a5ff;
+  outline-offset:3px;
+}
+
 </style>
 </head>
 
@@ -287,11 +312,12 @@ footer {
       <a href="../index.html#architecture">Expertise</a>
       <a href="../index.html#about">About</a>
       <a class="active" href="../index.html#insights">Insights</a>
+      <a href="../index.html#contact">Contact</a>
     </nav>
   </div>
 </header>
 
-<main>
+<main class="protected-content">
   <section class="hero">
     <div class="container">
       <div class="eyebrow">Architecture Brief</div>
@@ -700,6 +726,18 @@ notifications:
       </div>
     </article>
   </div>
+
+<div class="article-copyright" style="
+  margin-top:32px;
+  padding-top:20px;
+  border-top:1px solid rgba(127,145,170,.28);
+  font-size:.82rem;
+  line-height:1.55;
+  color:#7d8797;">
+  © 2026 Surendra Mukkamalla. All rights reserved.
+  Reproduction or redistribution without permission is prohibited.
+</div>
+
 </main>
 
 <footer>
@@ -742,5 +780,41 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeModal();
 });
 </script>
+
+<script>
+(function () {
+  const area = document.querySelector('.protected-content');
+  if (!area) return;
+
+  area.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    const copyShortcut = (e.ctrlKey || e.metaKey) &&
+      (e.key === 'c' || e.key === 'C');
+    if (!copyShortcut) return;
+
+    const sel = window.getSelection();
+    const anchor = sel && sel.anchorNode;
+    const anchorEl = anchor
+      ? (anchor.nodeType === Node.TEXT_NODE ? anchor.parentNode : anchor)
+      : null;
+    const active = document.activeElement;
+
+    if ((anchorEl && area.contains(anchorEl)) ||
+        (active && area.contains(active))) {
+      e.preventDefault();
+    }
+  });
+
+  area.addEventListener('dragstart', function (e) {
+    const target = e.target;
+    if (target && (target.closest('a') || target.tagName === 'IMG')) return;
+    e.preventDefault();
+  });
+})();
+</script>
+
 </body>
 </html>
