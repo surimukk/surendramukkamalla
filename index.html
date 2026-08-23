@@ -250,7 +250,7 @@
     .grid{display:grid;gap:18px}
     .work-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
     .architecture-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
-    .insight-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .insight-grid{grid-template-columns:repeat(2,minmax(0,1fr));max-width:920px}
 
     .card{
       border:1px solid var(--border);
@@ -651,25 +651,25 @@
         </p>
 
         <div class="grid insight-grid">
+
           <article class="card insight-card">
-            <div class="type">Architecture Brief</div>
-            <h3>Moving Agentic AI from POC to Production</h3>
-            <p>How agents, enterprise data, MCP, guardrails, observability and human oversight fit into a production architecture.</p>
-            <a class="detail-link" href="insights/agentic-ai-production.html">Read Article <span>→</span></a>
+            <div class="type">Architecture Brief · Enterprise Data + AI</div>
+            <h3>Building a Petabyte-Scale Enterprise Data &amp; AI Platform</h3>
+            <p>
+              An eight-step governed architecture spanning ingestion, open data, Snowflake, Databricks,
+              trusted data products, semantic intelligence, RAG, agentic applications and enterprise operations.
+            </p>
+            <a class="detail-link" href="insights/petabyte-enterprise-data-ai-platform.html">Read Article <span>→</span></a>
           </article>
 
           <article class="card insight-card">
-            <div class="type">Engineering Perspective</div>
-            <h3>Metadata-Driven Airflow at Enterprise Scale</h3>
-            <p>Why reusable components, YAML-driven configuration and standardized deployment improve maintainability and operational consistency.</p>
-            <a class="detail-link" href="insights/metadata-driven-airflow.html">Read Article <span>→</span></a>
-          </article>
-
-          <article class="card insight-card">
-            <div class="type">Platform Strategy</div>
-            <h3>Snowflake and Databricks: Architecture, Not Product Comparison</h3>
-            <p>How to decide platform responsibilities, interoperability and workload placement in a modern enterprise data architecture.</p>
-            <a class="detail-link" href="insights/snowflake-databricks-architecture.html">Read Article <span>→</span></a>
+            <div class="type">Architecture Brief · Agentic Engineering</div>
+            <h3>AI Coding Assistants: From Developer Tools to Agentic Engineering Platforms</h3>
+            <p>
+              A practical architecture view of AWS Kiro, Claude Code and Codex through enterprise modernization,
+              MCP, engineering context, execution, governance and production guardrails.
+            </p>
+            <a class="detail-link" href="insights/ai-coding-assistants-agentic-engineering.html">Read Article <span>→</span></a>
           </article>
         </div>
       </div>
