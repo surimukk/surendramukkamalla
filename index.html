@@ -1,90 +1,476 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Surendra Mukkamalla — Enterprise Data, Cloud and Agentic AI architecture and engineering.">
-<title>Surendra Mukkamalla | Data · Cloud · Agentic AI</title>
-<style>
-:root{--paper:#f7f9fc;--surface:#fff;--ink:#172033;--navy:#0b1b34;--muted:#5f6f83;--line:#dce3ed;--blue:#1f67b1;--blue-soft:#eaf3fc;--purple:#6956c8;--green:#16856a;--amber:#b66a16;--shadow:0 16px 42px rgba(20,35,58,.07);--max:1180px}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}.container{width:min(var(--max),calc(100% - 44px));margin:auto}
-header{position:sticky;top:0;z-index:50;background:rgba(247,249,252,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--line);box-shadow:0 4px 18px rgba(20,35,58,.035)}nav{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:26px}.brand strong{display:block;color:var(--navy);font-size:clamp(20px,2.25vw,30px);letter-spacing:-.035em;line-height:1}.brand span{display:block;color:var(--blue);font-size:10px;font-weight:800;letter-spacing:.13em;text-transform:uppercase;margin-top:7px}.nav-links{display:flex;gap:30px;align-items:center}.nav-links a{font-size:13px;font-weight:720;color:#43556a}.nav-links a:hover{color:var(--blue)}
-.hero{padding:72px 0 58px;background:radial-gradient(circle at 14% 18%,rgba(31,103,177,.075),transparent 30%),radial-gradient(circle at 86% 24%,rgba(105,86,200,.055),transparent 28%),linear-gradient(180deg,#ffffff 0%,#f7f9fc 100%);border-bottom:1px solid var(--line)}.eyebrow,.section-label,.type{color:var(--blue);font-size:12px;font-weight:850;letter-spacing:.13em;text-transform:uppercase}.hero h1{max-width:880px;margin:14px 0 18px;color:var(--navy);font-size:clamp(32px,3.45vw,47px);line-height:1.03;letter-spacing:-.047em}.hero p{max-width:820px;margin:0;color:var(--muted);font-size:18px}.hero-actions{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 18px;border-radius:10px;font-size:14px;font-weight:760;border:1px solid transparent}.btn-primary{background:var(--navy);color:#fff}.btn-primary:hover{background:var(--blue)}.btn-secondary{background:#fff;border-color:#cbd7e4;color:var(--navy)}.capability-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:44px}.capability{background:#fff;border:1px solid var(--line);border-radius:13px;padding:15px 14px;color:#31445b;font-size:13px;font-weight:760;box-shadow:0 10px 28px rgba(20,35,58,.045)}
-section.content{padding:76px 0}.section-alt{background:#f1f5f9;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.section-title{max-width:780px;margin:10px 0 12px;color:var(--navy);font-size:clamp(28px,3.3vw,42px);line-height:1.14;letter-spacing:-.035em}.section-intro{max-width:760px;color:var(--muted);font-size:16px;margin:0 0 30px}.grid{display:grid;gap:18px}.work-grid{grid-template-columns:repeat(3,1fr)}.architecture-grid{grid-template-columns:repeat(2,1fr)}.insight-grid{grid-template-columns:repeat(3,1fr)}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:25px;box-shadow:var(--shadow)}.card h3{color:var(--navy);font-size:20px;line-height:1.25;margin:9px 0 10px;letter-spacing:-.02em}.card p,.card li{color:var(--muted);font-size:14.5px}.card ul{padding-left:20px;margin:12px 0 0}.tagline{margin-top:18px;color:#3f5871;font-size:12.5px;font-weight:720}.detail-link{display:inline-block;margin-top:18px;color:var(--blue);font-size:13px;font-weight:800}.detail-link:hover{text-decoration:underline}.insight-card{position:relative;overflow:hidden}.insight-card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(var(--blue),var(--purple))}.meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.pill{background:#eef4fb;border:1px solid #d5e3f2;color:#365775;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:750}
-.about-grid{display:grid;grid-template-columns:1.4fr .8fr;gap:28px;align-items:start}.about-copy p{color:var(--muted);font-size:16px}.credentials{display:grid;gap:12px}.credential{background:#fff;border:1px solid var(--line);border-radius:14px;padding:17px 18px;box-shadow:var(--shadow)}.credential strong{display:block;color:var(--navy);font-size:17px}.credential span{color:var(--muted);font-size:13px}.contact-card{margin-top:34px;background:linear-gradient(135deg,#fff,#f3f7fb);border:1px solid var(--line);border-radius:18px;padding:28px;display:flex;align-items:center;justify-content:space-between;gap:24px}.contact-card h3{margin:0 0 7px;color:var(--navy);font-size:24px}.contact-card p{margin:0;color:var(--muted)}.contact-actions{display:flex;gap:10px;flex-wrap:wrap}footer{background:#fff;border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-size:12px}.footer-row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
-@media(max-width:900px){.capability-grid{grid-template-columns:repeat(2,1fr)}.work-grid,.architecture-grid,.insight-grid,.about-grid{grid-template-columns:1fr}.nav-links{gap:16px}.contact-card{align-items:flex-start;flex-direction:column}}@media(max-width:680px){.container{width:min(var(--max),calc(100% - 28px))}.nav-links{display:none}.hero{padding:58px 0 52px}.hero h1{font-size:clamp(30px,9.2vw,40px)}.hero p{font-size:17px}.capability-grid{grid-template-columns:1fr}.content{padding:58px 0}}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Surendra Mukkamalla — Enterprise Data, Cloud, AI Architecture & Engineering. Selected work, architecture labs, insights and capabilities across modern data platforms and Agentic AI." />
+  <meta name="author" content="Surendra Mukkamalla" />
+  <meta name="theme-color" content="#f7f8fa" />
+  <title>Surendra Mukkamalla | Data · Cloud · Agentic AI</title>
 
-<style id="content-protection-styles">
-html,body,body *{-webkit-user-select:none!important;-moz-user-select:none!important;-ms-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important}
-img,svg{-webkit-user-drag:none!important;user-drag:none!important}
-.copyright-protection-notice{max-width:1180px;margin:0 auto;padding:22px 24px 30px;border-top:1px solid rgba(15,23,42,.10);color:#64748b;font-size:12px;line-height:1.6;text-align:center}
-</style>
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --surface: #ffffff;
+      --surface-soft: #f1f4f7;
+      --text: #14202a;
+      --muted: #5c6975;
+      --line: #dce3e8;
+      --accent: #a93d2d;
+      --accent-dark: #7f2c20;
+      --ink-soft: #263746;
+      --success: #3d6755;
+      --lab: #6b5a91;
+      --shadow: 0 14px 36px rgba(20, 32, 42, 0.07);
+      --radius: 18px;
+      --max: 1160px;
+    }
 
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .shell { width: min(calc(100% - 40px), var(--max)); margin: 0 auto; }
+
+    /* Header */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(15px);
+      background: rgba(247, 248, 250, 0.9);
+      border-bottom: 1px solid rgba(220, 227, 232, 0.9);
+    }
+    .nav {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+    .brand { display: flex; flex-direction: column; gap: 2px; min-width: 250px; }
+    .brand strong { font-size: 1.1rem; letter-spacing: .01em; }
+    .brand span { font-size: .78rem; color: var(--muted); }
+    .nav-links { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+    .nav-links a { font-size: .88rem; color: var(--muted); font-weight: 650; }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* Hero */
+    .hero { padding: 86px 0 72px; }
+    .eyebrow {
+      display: block;
+      font-size: .69rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--accent);
+      margin-bottom: 18px;
+    }
+    h1 {
+      font-size: clamp(2.15rem, 4.15vw, 3.65rem);
+      line-height: 1.08;
+      letter-spacing: -0.038em;
+      max-width: 920px;
+      margin: 0 0 22px;
+      font-weight: 730;
+    }
+    .hero-copy {
+      max-width: 830px;
+      font-size: clamp(1rem, 1.7vw, 1.22rem);
+      color: var(--muted);
+      margin: 0 0 30px;
+    }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 34px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 11px 16px; border-radius: 999px; border: 1px solid var(--line);
+      background: var(--surface); font-size: .88rem; font-weight: 750;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+    .btn:hover { transform: translateY(-1px); border-color: #c8d1d8; box-shadow: 0 8px 20px rgba(20,32,42,.06); }
+    .btn.primary { background: var(--text); border-color: var(--text); color: white; }
+    .chips { display: flex; flex-wrap: wrap; gap: 9px; }
+    .chip { padding: 7px 11px; border: 1px solid var(--line); background: rgba(255,255,255,.65); border-radius: 999px; font-size: .78rem; color: var(--ink-soft); font-weight: 650; }
+
+    /* General sections */
+    section { padding: 78px 0; scroll-margin-top: 76px; }
+    section + section { border-top: 1px solid var(--line); }
+    .section-head { display: grid; grid-template-columns: 1fr 1.2fr; gap: 46px; align-items: end; margin-bottom: 34px; }
+    .kicker { font-size: .76rem; text-transform: uppercase; letter-spacing: .13em; font-weight: 800; color: var(--accent); margin-bottom: 8px; }
+    h2 { font-size: clamp(1.8rem, 3vw, 2.7rem); line-height: 1.12; letter-spacing: -.025em; margin: 0; }
+    .section-head p { color: var(--muted); margin: 0; font-size: .98rem; max-width: 660px; justify-self: end; }
+
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 0 rgba(0,0,0,0);
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: #cbd5dc; }
+    .card-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 22px; }
+    .status {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: .68rem; text-transform: uppercase; letter-spacing: .09em; font-weight: 850;
+      color: var(--success);
+    }
+    .status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+    .status.lab { color: var(--lab); }
+    .status.brief { color: var(--accent); }
+    .type { font-size: .72rem; color: var(--muted); font-weight: 700; }
+    h3 { font-size: 1.22rem; line-height: 1.28; margin: 0 0 12px; letter-spacing: -.015em; }
+    .card p { color: var(--muted); font-size: .9rem; margin: 0 0 18px; }
+    .tags { display: flex; gap: 7px; flex-wrap: wrap; margin: auto 0 20px; }
+    .tag { font-size: .69rem; font-weight: 700; padding: 5px 8px; background: var(--surface-soft); border-radius: 7px; color: var(--ink-soft); }
+    .card-link { font-size: .82rem; font-weight: 800; color: var(--text); display: inline-flex; gap: 6px; align-items: center; }
+    .card-link:hover { color: var(--accent); }
+
+    /* Lab */
+    .lab-wrap { background: #f2f1f7; border-radius: 28px; padding: 34px; border: 1px solid #e2dfea; }
+    .lab-note { margin: -10px 0 28px; color: #625d6d; font-size: .9rem; max-width: 760px; }
+
+    /* Insights */
+    .article-card { position: relative; overflow: hidden; }
+    .article-card::after { content: ""; position: absolute; right: -45px; top: -45px; width: 120px; height: 120px; border-radius: 50%; background: rgba(169,61,45,.055); }
+    .read-meta { display: flex; gap: 10px; flex-wrap: wrap; font-size: .72rem; color: var(--muted); margin-bottom: 18px; }
+
+    /* Capabilities */
+    .capability { padding: 25px; }
+    .capability h3 { margin-bottom: 15px; }
+    .capability ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: .88rem; }
+    .capability li { margin: 7px 0; }
+
+    /* About */
+    .about-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 56px; align-items: start; }
+    .about-title { font-size: clamp(1.8rem,3vw,2.6rem); line-height: 1.15; margin: 0; }
+    .about-copy p { color: var(--muted); margin: 0 0 16px; }
+    .metrics { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 24px; }
+    .metric { border-top: 2px solid var(--text); padding-top: 12px; }
+    .metric strong { display: block; font-size: 1.25rem; }
+    .metric span { display: block; font-size: .73rem; color: var(--muted); margin-top: 4px; }
+
+    /* Connect + footer */
+    .connect-box {
+      background: var(--text); color: white; border-radius: 28px; padding: 42px;
+      display: grid; grid-template-columns: 1.25fr .75fr; gap: 30px; align-items: center;
+    }
+    .connect-box h2 { color: white; font-size: clamp(1.8rem,3vw,2.6rem); margin-bottom: 10px; }
+    .connect-box p { color: #c7d0d8; margin: 0; max-width: 650px; }
+    .connect-actions { display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap; }
+    .connect-actions .btn { background: transparent; border-color: #43515d; color: white; }
+    .connect-actions .btn:hover { border-color: #7b8892; }
+    footer { padding: 26px 0 38px; color: var(--muted); font-size: .75rem; }
+    .footer-row { display: flex; justify-content: space-between; gap: 20px; align-items: center; flex-wrap: wrap; }
+
+    @media (max-width: 900px) {
+      .nav { align-items: flex-start; padding: 17px 0; }
+      .nav-links { gap: 14px; }
+      .section-head, .about-grid, .connect-box { grid-template-columns: 1fr; }
+      .section-head p { justify-self: start; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .metrics { grid-template-columns: 1fr; }
+      .connect-actions { justify-content: flex-start; }
+    }
+    @media (max-width: 680px) {
+      .shell { width: min(calc(100% - 28px), var(--max)); }
+      .site-header { position: static; }
+      .nav { flex-direction: column; gap: 12px; }
+      .brand { min-width: 0; }
+      .nav-links { justify-content: flex-start; }
+      .hero { padding: 54px 0 48px; }
+      section { padding: 56px 0; }
+      .lab-wrap { padding: 22px; border-radius: 22px; }
+      .card { padding: 21px; }
+      .connect-box { padding: 28px; }
+    }
+  </style>
+
+  <style id="site-content-protection">
+    html, body, body * { -webkit-user-select:none !important; -moz-user-select:none !important; -ms-user-select:none !important; user-select:none !important; -webkit-touch-callout:none !important; }
+    img, svg { -webkit-user-drag:none !important; user-drag:none !important; }
+  </style>
 </head>
 <body oncopy="return false" oncut="return false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
-<header><div class="container"><nav><a class="brand" href="/"><strong>Surendra Mukkamalla</strong><span>Data · Cloud · AI Architecture & Engineering</span></a><div class="nav-links"><a href="#work">Work</a><a href="#architecture">Architecture</a><a href="#insights">Insights</a><a href="#about">About</a></div></nav></div></header>
-<main>
-<section class="hero"><div class="container"><div class="eyebrow">Enterprise Data · Cloud · Agentic AI</div><h1>Engineering and architecture that turn data, cloud and AI into trusted production systems.</h1><p>I design and modernize enterprise data platforms, cloud systems and agentic AI solutions — combining architecture, hands-on engineering, governance and production readiness.</p><div class="capability-grid"><div class="capability">Enterprise Architecture & Engineering</div><div class="capability">Snowflake & Databricks</div><div class="capability">Cloud Architecture</div><div class="capability">Agentic AI · RAG · MCP</div><div class="capability">Data Engineering & Automation</div></div></div></section>
-<section class="content" id="work"><div class="container"><div class="section-label">Selected Work</div><h2 class="section-title">Selected architecture and engineering case studies.</h2><p class="section-intro">Sanitized examples of systems, frameworks and modernization patterns I have designed or engineered.</p><div class="grid work-grid"><article class="card"><div class="type">Agentic AI</div><h3>Enterprise Agentic AI Architecture</h3><p>Production-oriented architecture for AI agents that connect enterprise knowledge, governed data, APIs and tools using RAG, MCP, guardrails, observability and human approval.</p><div class="tagline">Agents · RAG · MCP · APIs · Guardrails · Observability</div><a class="detail-link" href="#architecture">View Details →</a></article><article class="card"><div class="type">Data Engineering</div><h3>Metadata-Driven Orchestration Framework</h3><p>Configuration-driven orchestration using reusable operators, standardized deployment, automated validation and operational controls to scale engineering across teams.</p><div class="tagline">Airflow · Python · YAML · SQL · CI/CD · Monitoring</div><a class="detail-link" href="#architecture">View Details →</a></article><article class="card"><div class="type">Modernization</div><h3>Enterprise Data Platform Modernization</h3><p>Modern data architecture integrating cloud storage, orchestration, Snowflake, Databricks, governance, observability and semantic access across enterprise workloads.</p><div class="tagline">Snowflake · Databricks · Cloud · Governance · Semantic Layer</div><a class="detail-link" href="#architecture">View Details →</a></article></div></div></section>
-<section class="content section-alt" id="architecture"><div class="container"><div class="section-label">Architecture</div><h2 class="section-title">Four areas that define my architecture focus.</h2><p class="section-intro">These are the capabilities I bring together when designing enterprise platforms and production AI systems.</p><div class="grid architecture-grid"><article class="card"><h3>Modern Data Platforms</h3><ul><li>Snowflake, Databricks and lakehouse architecture</li><li>Data modeling, medallion and semantic patterns</li><li>Performance, scale and cost optimization</li><li>Batch and real-time processing</li></ul></article><article class="card"><h3>Cloud & Engineering</h3><ul><li>Cloud modernization and migration</li><li>Reusable engineering frameworks</li><li>Orchestration, APIs and automation</li><li>CI/CD and operational reliability</li></ul></article><article class="card"><h3>Agentic AI & Enterprise AI</h3><ul><li>AI agents and multi-agent orchestration</li><li>RAG and enterprise knowledge systems</li><li>MCP and tool integration</li><li>LLM workflows and AI-assisted engineering</li></ul></article><article class="card"><h3>Governance & Production Trust</h3><ul><li>AI and data governance</li><li>Security, privacy and auditability</li><li>Data quality, lineage and observability</li><li>Guardrails and production readiness</li></ul></article></div></div></section>
-<section class="content" id="insights"><div class="container"><div class="section-label">Insights</div><h2 class="section-title">Technical perspectives on architecture, engineering and AI.</h2><p class="section-intro">Long-form technical briefs that explain architecture choices, trade-offs, engineering patterns and production lessons.</p><div class="grid insight-grid">
+  <header class="site-header">
+    <div class="shell nav">
+      <a class="brand" href="#top" aria-label="Surendra Mukkamalla home">
+        <strong>Surendra Mukkamalla</strong>
+        <span>Data · Cloud · AI Architecture & Engineering</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#work">Work</a>
+        <a href="#lab">Architecture Lab</a>
+        <a href="#insights">Insights</a>
+        <a href="#capabilities">Capabilities</a>
+        <a href="#about">About</a>
+      </nav>
+    </div>
+  </header>
 
-<article class="card insight-card">
-<div class="type">Architecture Brief · Enterprise Data + AI</div>
-<h3>Building a Petabyte-Scale Enterprise Data & AI Platform</h3>
-<p>An eight-step governed architecture spanning ingestion, open data, Snowflake, Databricks, trusted data products, semantic intelligence, RAG, agentic applications and enterprise operations.</p>
-<div class="meta"><span class="pill">5 min read</span><span class="pill">8 architecture steps</span></div>
-<a class="detail-link" href="insights/petabyte-enterprise-data-ai-platform.html">Read Article →</a>
-</article>
+  <main id="top">
+    <section class="hero">
+      <div class="shell">
+        <div class="eyebrow">Enterprise Data · Cloud · Agentic AI</div>
+        <h1>Engineering and architecture that turn data, cloud and AI into trusted production systems.</h1>
+        <p class="hero-copy">
+          I design and modernize enterprise data platforms, cloud systems and agentic AI solutions — combining architecture, hands-on engineering, governance and production readiness.
+        </p>
+        <div class="chips" aria-label="Core focus areas">
+          <span class="chip">Enterprise Architecture & Engineering</span>
+          <span class="chip">Snowflake & Databricks</span>
+          <span class="chip">Cloud Architecture</span>
+          <span class="chip">Agentic AI · RAG · MCP</span>
+          <span class="chip">Data Engineering & Automation</span>
+          <span class="chip">Governance · Observability · FinOps</span>
+        </div>
+      </div>
+    </section>
 
-<article class="card insight-card">
-<div class="type">Architecture Lab · Enterprise Agentic AI</div>
-<h3>Building an Enterprise AI Operations Agent</h3>
-<p>A practical enterprise architecture for investigating workload failures across Airflow/MWAA, Control-M, ECS, CloudWatch and Snowflake — combining evidence collection, historical incident correlation, root-cause reasoning and governed remediation.</p>
-<div class="meta"><span class="pill">15–18 min read</span><span class="pill">Architecture + POC path</span></div>
-<a class="detail-link" href="insights/enterprise-ai-operations-agent.html">Read Article →</a>
-</article>
+    <section id="work">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Selected Work</div>
+            <h2>Architecture and engineering delivered in real enterprise environments.</h2>
+          </div>
+          <p>Sanitized case studies showing the problems, architecture decisions, engineering patterns and production considerations behind systems I have designed or engineered.</p>
+        </div>
 
-<article class="card insight-card">
-<div class="type">Architecture Brief · Agentic Engineering</div>
-<h3>AI Coding Assistants: From Developer Tools to Agentic Engineering Platforms</h3>
-<p>A practical architecture view of AWS Kiro, Claude Code and Codex through enterprise modernization, MCP, engineering context, execution, governance and production guardrails.</p>
-<div class="meta"><span class="pill">12 min read</span><span class="pill">Enterprise engineering</span></div>
-<a class="detail-link" href="insights/ai-coding-assistants-agentic-engineering.html">Read Article →</a>
-</article>
+        <div class="grid-3">
+          <article class="card">
+            <div class="card-top"><span class="status">Production Architecture</span><span class="type">Case Study</span></div>
+            <h3>Enterprise Agentic AI Architecture</h3>
+            <p>Production-oriented architecture connecting enterprise knowledge, governed data, APIs and tools using RAG, MCP, guardrails, observability and human approval.</p>
+            <div class="tags"><span class="tag">Agents</span><span class="tag">RAG</span><span class="tag">MCP</span><span class="tag">Guardrails</span><span class="tag">Observability</span></div>
+            <a class="card-link" href="#capabilities">View architecture focus →</a>
+          </article>
 
-</div></div></section>
-<section class="content section-alt" id="about"><div class="container"><div class="about-grid"><div class="about-copy"><div class="section-label">About</div><h2 class="section-title">Enterprise architecture leadership with hands-on engineering depth.</h2><p>I bring 20+ years of experience designing and modernizing enterprise technology, data platforms and cloud solutions. My work combines architecture leadership with hands-on engineering across Snowflake, Databricks, Airflow, Python, SQL, cloud services, automation and production operations.</p><p>My current focus includes Agentic AI, RAG, MCP, AI-assisted engineering and governed enterprise AI — connecting emerging AI capabilities with production-grade data, security, governance and observability.</p></div><div class="credentials"><div class="credential"><strong>20+ Years</strong><span>Enterprise technology and engineering</span></div><div class="credential"><strong>Architecture + Engineering</strong><span>Strategy backed by implementation</span></div><div class="credential"><strong>Data · Cloud · AI</strong><span>Modernization through production</span></div></div></div><div class="contact-card"><div><div class="section-label">Connect</div><h3>Let’s connect.</h3><p>I’m interested in conversations around enterprise architecture, modern data platforms, cloud modernization and production AI engineering.</p></div><div class="contact-actions"><a class="btn btn-primary" href="mailto:suri75@gmail.com">Email Surendra</a><a class="btn btn-secondary" href="https://www.linkedin.com/in/surendra-m-2a6ab0123" target="_blank" rel="noopener">LinkedIn</a></div></div></div></section>
-</main>
-<footer><div class="container footer-row"><span>© 2026 Surendra Mukkamalla. All rights reserved.</span><span>Enterprise Data · Cloud · Agentic AI</span></div></footer>
+          <article class="card">
+            <div class="card-top"><span class="status">Implemented Pattern</span><span class="type">Engineering Framework</span></div>
+            <h3>Metadata-Driven Orchestration Framework</h3>
+            <p>Configuration-driven orchestration with reusable operators, standardized deployment, automated validation and operational controls designed to scale engineering across teams.</p>
+            <div class="tags"><span class="tag">Airflow</span><span class="tag">Python</span><span class="tag">YAML</span><span class="tag">SQL</span><span class="tag">CI/CD</span></div>
+            <a class="card-link" href="#capabilities">View engineering focus →</a>
+          </article>
 
-<div class="copyright-protection-notice" role="contentinfo">
-  © 2026 Surendra Mukkamalla. All rights reserved. Reproduction or redistribution without permission is prohibited.
-</div>
+          <article class="card">
+            <div class="card-top"><span class="status">Modernization</span><span class="type">Case Study</span></div>
+            <h3>Enterprise Data Platform Modernization</h3>
+            <p>Modern data architecture integrating cloud storage, orchestration, Snowflake, Databricks, governance, observability and semantic access across enterprise workloads.</p>
+            <div class="tags"><span class="tag">Snowflake</span><span class="tag">Databricks</span><span class="tag">Cloud</span><span class="tag">Governance</span><span class="tag">Semantic Layer</span></div>
+            <a class="card-link" href="insights/petabyte-enterprise-data-ai-platform.html">Read related architecture brief →</a>
+          </article>
+        </div>
+      </div>
+    </section>
 
-<script id="content-protection-script">
-(function(){
-'use strict';
-const stop=function(e){if(e){e.preventDefault();e.stopPropagation();if(e.stopImmediatePropagation)e.stopImmediatePropagation();}return false;};
-['contextmenu','copy','cut','dragstart','selectstart','beforecopy','beforecut'].forEach(function(evt){
-document.addEventListener(evt,stop,true);window.addEventListener(evt,stop,true);
-});
-document.addEventListener('keydown',function(e){
-const k=(e.key||'').toLowerCase();const mod=e.ctrlKey||e.metaKey;
-if(mod&&['a','c','x','s','u','p'].includes(k))return stop(e);
-if(e.key==='F12')return stop(e);
-if(mod&&e.shiftKey&&['i','j','c'].includes(k))return stop(e);
-},true);
-document.addEventListener('selectionchange',function(){
-const s=window.getSelection?window.getSelection():null;
-if(s&&s.rangeCount){try{s.removeAllRanges();}catch(_){}}
-},true);
-document.addEventListener('mousedown',function(e){
-if(e.target.closest&&e.target.closest('a'))return;
-if(e.detail>1)stop(e);
-},true);
-})();
-</script>
+    <section id="lab">
+      <div class="shell">
+        <div class="lab-wrap">
+          <div class="section-head">
+            <div>
+              <div class="kicker">Architecture Lab</div>
+              <h2>POCs, reference implementations and emerging architecture patterns.</h2>
+            </div>
+            <p>Focused technical experiments used to validate an architecture, integration path or engineering pattern before broader enterprise adoption.</p>
+          </div>
+          <p class="lab-note">Lab work is intentionally labeled so a visitor can distinguish a reference implementation or POC from production-delivered architecture.</p>
 
-</body></html>
+          <div class="grid-3">
+            <article class="card">
+              <div class="card-top"><span class="status lab">Reference + POC Path</span><span class="type">Architecture Lab</span></div>
+              <h3>Enterprise AI Operations Agent</h3>
+              <p>Evidence-first investigation across MWAA, CloudWatch and Snowflake, with LangGraph/Bedrock reasoning, governed remediation and a clear path toward MCP-enabled enterprise tooling.</p>
+              <div class="tags"><span class="tag">Bedrock</span><span class="tag">LangGraph</span><span class="tag">MWAA</span><span class="tag">Snowflake</span><span class="tag">MCP</span></div>
+              <a class="card-link" href="insights/enterprise-ai-operations-agent.html">Open Architecture Lab →</a>
+            </article>
+
+            <article class="card">
+              <div class="card-top"><span class="status lab">Reference Pattern</span><span class="type">Lab Direction</span></div>
+              <h3>Governed MCP Tool Layer</h3>
+              <p>A reference pattern for exposing enterprise systems to AI agents through narrow, discoverable and policy-controlled tools rather than unrestricted application access.</p>
+              <div class="tags"><span class="tag">MCP</span><span class="tag">Tool Gateway</span><span class="tag">Identity</span><span class="tag">Policy</span><span class="tag">Audit</span></div>
+              <span class="card-link" aria-label="Reference pattern planned">Reference implementation direction</span>
+            </article>
+
+            <article class="card">
+              <div class="card-top"><span class="status lab">Experiment</span><span class="type">Lab Direction</span></div>
+              <h3>AI Evaluation & Cost Engineering</h3>
+              <p>A practical evaluation pattern for measuring diagnosis quality, unsupported claims, human overrides, latency, token usage and LLM cost before scaling an agent workflow.</p>
+              <div class="tags"><span class="tag">Evaluation</span><span class="tag">Tokens</span><span class="tag">Cost</span><span class="tag">Quality</span><span class="tag">Observability</span></div>
+              <span class="card-link" aria-label="Experiment planned">Experiment / future lab</span>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="insights">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Insights</div>
+            <h2>Technical perspectives on architecture, engineering and AI.</h2>
+          </div>
+          <p>Long-form architecture briefs explaining design choices, trade-offs, engineering patterns, governance and lessons for production systems.</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card article-card">
+            <div class="card-top"><span class="status brief">Architecture Brief</span><span class="type">Enterprise Data + AI</span></div>
+            <h3>Building a Petabyte-Scale Enterprise Data & AI Platform</h3>
+            <p>An eight-step governed architecture spanning ingestion, open data, Snowflake, Databricks, trusted data products, semantic intelligence, RAG, agentic applications and enterprise operations.</p>
+            <div class="read-meta"><span>5 min read</span><span>·</span><span>8 architecture steps</span></div>
+            <a class="card-link" href="insights/petabyte-enterprise-data-ai-platform.html">Read Article →</a>
+          </article>
+
+          <article class="card article-card">
+            <div class="card-top"><span class="status brief">Architecture Brief</span><span class="type">Agentic Engineering</span></div>
+            <h3>AI Coding Assistants: From Developer Tools to Agentic Engineering Platforms</h3>
+            <p>A practical architecture view of AWS Kiro, Claude Code and Codex through enterprise modernization, MCP, engineering context, execution, governance and production guardrails.</p>
+            <div class="read-meta"><span>12 min read</span><span>·</span><span>Enterprise engineering</span></div>
+            <a class="card-link" href="insights/ai-coding-assistants-agentic-engineering.html">Read Article →</a>
+          </article>
+
+          <article class="card article-card">
+            <div class="card-top"><span class="status brief">Architecture + Lab</span><span class="type">Enterprise Agentic AI</span></div>
+            <h3>Building an Enterprise AI Operations Agent</h3>
+            <p>A practical enterprise architecture for investigating workload failures using evidence collection, historical incident correlation, root-cause reasoning and governed remediation.</p>
+            <div class="read-meta"><span>15–18 min read</span><span>·</span><span>Architecture + POC path</span></div>
+            <a class="card-link" href="insights/enterprise-ai-operations-agent.html">Read Article →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="capabilities">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Capabilities</div>
+            <h2>Architecture breadth backed by engineering depth.</h2>
+          </div>
+          <p>The major capability areas I bring together when architecting and modernizing enterprise data platforms, cloud systems and production AI.</p>
+        </div>
+
+        <div class="grid-2">
+          <article class="card capability">
+            <h3>Modern Data Platforms</h3>
+            <ul>
+              <li>Snowflake, Databricks and lakehouse architecture</li>
+              <li>Data modeling, medallion and semantic patterns</li>
+              <li>Performance, scalability and cost optimization</li>
+              <li>Batch, API and event-driven data engineering</li>
+            </ul>
+          </article>
+
+          <article class="card capability">
+            <h3>Cloud & Platform Engineering</h3>
+            <ul>
+              <li>Cloud modernization and migration</li>
+              <li>Reusable engineering and orchestration frameworks</li>
+              <li>CI/CD, architecture automation and engineering standards</li>
+              <li>Operational reliability, observability and production readiness</li>
+            </ul>
+          </article>
+
+          <article class="card capability">
+            <h3>Agentic AI & Enterprise AI</h3>
+            <ul>
+              <li>AI agents, workflows and multi-agent patterns</li>
+              <li>RAG, enterprise search and semantic intelligence</li>
+              <li>MCP, APIs and governed tool integration</li>
+              <li>AI-assisted engineering, evaluation and cost-aware design</li>
+            </ul>
+          </article>
+
+          <article class="card capability">
+            <h3>Governance & Production Trust</h3>
+            <ul>
+              <li>AI and data governance</li>
+              <li>Security, privacy, policy and auditability</li>
+              <li>Data quality, lineage and observability</li>
+              <li>Guardrails, human approval and production controls</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="shell about-grid">
+        <div>
+          <div class="kicker">About</div>
+          <h2 class="about-title">Enterprise architecture leadership with hands-on engineering depth.</h2>
+        </div>
+        <div class="about-copy">
+          <p>I bring 20+ years of experience designing and modernizing enterprise technology, data platforms and cloud solutions. My work combines architecture direction with hands-on engineering across Snowflake, Databricks, Airflow, Python, SQL, cloud services, automation and production operations.</p>
+          <p>My current focus includes Agentic AI, RAG, MCP, AI-assisted engineering and governed enterprise AI — connecting emerging AI capabilities with production-grade data, security, governance, observability and cost discipline.</p>
+          <p>I work best where architecture must move beyond diagrams: shaping the target design, making trade-offs, setting engineering standards, helping teams implement it and driving the solution toward production readiness.</p>
+
+          <div class="metrics">
+            <div class="metric"><strong>20+ Years</strong><span>Enterprise technology & engineering</span></div>
+            <div class="metric"><strong>Architecture + Build</strong><span>Strategy backed by implementation</span></div>
+            <div class="metric"><strong>Data · Cloud · AI</strong><span>Modernization through production</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="connect">
+      <div class="shell">
+        <div class="connect-box">
+          <div>
+            <div class="kicker" style="color:#d6a89f">Connect</div>
+            <h2>Let’s connect.</h2>
+            <p>I’m interested in conversations around enterprise architecture, modern data platforms, cloud modernization, Agentic AI and production AI engineering.</p>
+          </div>
+          <div class="connect-actions">
+            <a class="btn" href="mailto:surendra@surendramukkamalla.com">Email Surendra</a>
+            <a class="btn" href="https://www.linkedin.com/in/surendra-m-2a6ab0123" target="_blank" rel="noopener">LinkedIn ↗</a>
+            <a class="btn" href="https://github.com/surimukk" target="_blank" rel="noopener">GitHub ↗</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-row">
+      <span>© 2026 Surendra Mukkamalla. All rights reserved.</span>
+      <span>Enterprise Data · Cloud · Agentic AI</span>
+    </div>
+  </footer>
+
+  <script>
+    // Keep navigation normal while discouraging casual copying of portfolio content.
+    document.addEventListener('contextmenu', function (e) {
+      if (!e.target.closest('a, button, input, textarea')) e.preventDefault();
+    });
+    document.addEventListener('copy', function (e) {
+      if (!e.target.closest('input, textarea')) e.preventDefault();
+    });
+    document.addEventListener('keydown', function (e) {
+      const key = (e.key || '').toLowerCase();
+      if ((e.ctrlKey || e.metaKey) && ['c','u','s','a','p','x'].includes(key)) e.preventDefault();
+    });
+  </script>
+</body>
+</html>
