@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A high-level view of how I approach governed enterprise AI: turning structured data, unstructured knowledge and engineering systems into usable AI products while keeping architecture, security, observability and cost controls in the design."><meta name="author" content="Surendra Mukkamalla">
+<title>Enterprise Agentic AI Architecture | Surendra Mukkamalla</title><style>
+    :root {
+      --bg: #f7f8fa;
+      --surface: #ffffff;
+      --surface-soft: #f1f4f7;
+      --text: #14202a;
+      --muted: #5c6975;
+      --line: #dce3e8;
+      --accent: #a93d2d;
+      --accent-dark: #7f2c20;
+      --ink-soft: #263746;
+      --success: #3d6755;
+      --lab: #6b5a91;
+      --shadow: 0 14px 36px rgba(20, 32, 42, 0.07);
+      --radius: 18px;
+      --max: 1160px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .shell { width: min(calc(100% - 40px), var(--max)); margin: 0 auto; }
+
+    /* Header */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(15px);
+      background: rgba(247, 248, 250, 0.9);
+      border-bottom: 1px solid rgba(220, 227, 232, 0.9);
+    }
+    .nav {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+    .brand { display: flex; flex-direction: column; gap: 2px; min-width: 250px; }
+    .brand strong { font-size: 1.1rem; letter-spacing: .01em; }
+    .brand span { font-size: .78rem; color: var(--muted); }
+    .nav-links { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+    .nav-links a { font-size: .88rem; color: var(--muted); font-weight: 650; }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* Hero */
+    .hero { padding: 86px 0 72px; }
+    .eyebrow {
+      display: block;
+      font-size: .69rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--accent);
+      margin-bottom: 18px;
+    }
+    h1 {
+      font-size: clamp(2.15rem, 4.15vw, 3.65rem);
+      line-height: 1.08;
+      letter-spacing: -0.038em;
+      max-width: 920px;
+      margin: 0 0 22px;
+      font-weight: 730;
+    }
+    .hero-copy {
+      max-width: 830px;
+      font-size: clamp(1rem, 1.7vw, 1.22rem);
+      color: var(--muted);
+      margin: 0 0 30px;
+    }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 34px; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 11px 16px; border-radius: 999px; border: 1px solid var(--line);
+      background: var(--surface); font-size: .88rem; font-weight: 750;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+    .btn:hover { transform: translateY(-1px); border-color: #c8d1d8; box-shadow: 0 8px 20px rgba(20,32,42,.06); }
+    .btn.primary { background: var(--text); border-color: var(--text); color: white; }
+    .chips { display: flex; flex-wrap: wrap; gap: 9px; }
+    .chip { padding: 7px 11px; border: 1px solid var(--line); background: rgba(255,255,255,.65); border-radius: 999px; font-size: .78rem; color: var(--ink-soft); font-weight: 650; }
+
+    /* General sections */
+    section { padding: 78px 0; scroll-margin-top: 76px; }
+    section + section { border-top: 1px solid var(--line); }
+    .section-head { display: grid; grid-template-columns: 1fr 1.2fr; gap: 46px; align-items: end; margin-bottom: 34px; }
+    .kicker { font-size: .76rem; text-transform: uppercase; letter-spacing: .13em; font-weight: 800; color: var(--accent); margin-bottom: 8px; }
+    h2 { font-size: clamp(1.8rem, 3vw, 2.7rem); line-height: 1.12; letter-spacing: -.025em; margin: 0; }
+    .section-head p { color: var(--muted); margin: 0; font-size: .98rem; max-width: 660px; justify-self: end; }
+
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 0 rgba(0,0,0,0);
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: #cbd5dc; }
+    .card-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 22px; }
+    .status {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: .68rem; text-transform: uppercase; letter-spacing: .09em; font-weight: 850;
+      color: var(--success);
+    }
+    .status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+    .status.lab { color: var(--lab); }
+    .status.brief { color: var(--accent); }
+    .type { font-size: .72rem; color: var(--muted); font-weight: 700; }
+    h3 { font-size: 1.22rem; line-height: 1.28; margin: 0 0 12px; letter-spacing: -.015em; }
+    .card p { color: var(--muted); font-size: .9rem; margin: 0 0 18px; }
+    .tags { display: flex; gap: 7px; flex-wrap: wrap; margin: auto 0 20px; }
+    .tag { font-size: .69rem; font-weight: 700; padding: 5px 8px; background: var(--surface-soft); border-radius: 7px; color: var(--ink-soft); }
+    .card-link { font-size: .82rem; font-weight: 800; color: var(--text); display: inline-flex; gap: 6px; align-items: center; }
+    .card-link:hover { color: var(--accent); }
+
+    /* Lab */
+    .lab-wrap { background: #f2f1f7; border-radius: 28px; padding: 34px; border: 1px solid #e2dfea; }
+    .lab-note { margin: -10px 0 28px; color: #625d6d; font-size: .9rem; max-width: 760px; }
+
+    /* Insights */
+    .article-card { position: relative; overflow: hidden; }
+    .article-card::after { content: ""; position: absolute; right: -45px; top: -45px; width: 120px; height: 120px; border-radius: 50%; background: rgba(169,61,45,.055); }
+    .read-meta { display: flex; gap: 10px; flex-wrap: wrap; font-size: .72rem; color: var(--muted); margin-bottom: 18px; }
+
+    /* Capabilities */
+    .capability { padding: 25px; }
+    .capability h3 { margin-bottom: 15px; }
+    .capability ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: .88rem; }
+    .capability li { margin: 7px 0; }
+
+    /* About */
+    .about-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 56px; align-items: start; }
+    .about-title { font-size: clamp(1.8rem,3vw,2.6rem); line-height: 1.15; margin: 0; }
+    .about-copy p { color: var(--muted); margin: 0 0 16px; }
+    .metrics { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 24px; }
+    .metric { border-top: 2px solid var(--text); padding-top: 12px; }
+    .metric strong { display: block; font-size: 1.25rem; }
+    .metric span { display: block; font-size: .73rem; color: var(--muted); margin-top: 4px; }
+
+    /* Connect + footer */
+    .connect-box {
+      background: var(--text); color: white; border-radius: 28px; padding: 42px;
+      display: grid; grid-template-columns: 1.25fr .75fr; gap: 30px; align-items: center;
+    }
+    .connect-box h2 { color: white; font-size: clamp(1.8rem,3vw,2.6rem); margin-bottom: 10px; }
+    .connect-box p { color: #c7d0d8; margin: 0; max-width: 650px; }
+    .connect-actions { display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap; }
+    .connect-actions .btn { background: transparent; border-color: #43515d; color: white; }
+    .connect-actions .btn:hover { border-color: #7b8892; }
+    footer { padding: 26px 0 38px; color: var(--muted); font-size: .75rem; }
+    .footer-row { display: flex; justify-content: space-between; gap: 20px; align-items: center; flex-wrap: wrap; }
+
+    @media (max-width: 900px) {
+      .nav { align-items: flex-start; padding: 17px 0; }
+      .nav-links { gap: 14px; }
+      .section-head, .about-grid, .connect-box { grid-template-columns: 1fr; }
+      .section-head p { justify-self: start; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .metrics { grid-template-columns: 1fr; }
+      .connect-actions { justify-content: flex-start; }
+    }
+    @media (max-width: 680px) {
+      .shell { width: min(calc(100% - 28px), var(--max)); }
+      .site-header { position: static; }
+      .nav { flex-direction: column; gap: 12px; }
+      .brand { min-width: 0; }
+      .nav-links { justify-content: flex-start; }
+      .hero { padding: 54px 0 48px; }
+      section { padding: 56px 0; }
+      .lab-wrap { padding: 22px; border-radius: 22px; }
+      .card { padding: 21px; }
+      .connect-box { padding: 28px; }
+    }
+  
+    .github-disabled { cursor: default; opacity: .72; }
+
+    .case-hero{padding:72px 0 54px}
+    .case-hero h1{max-width:900px}
+    .case-summary{max-width:850px;color:var(--muted);font-size:1.08rem}
+    .story-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+    .story{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px}
+    .story .num{font-size:.68rem;font-weight:850;letter-spacing:.1em;text-transform:uppercase;color:var(--success);margin-bottom:10px}
+    .story h2{font-size:1.35rem;margin-bottom:12px}
+    .story p{color:var(--muted);font-size:.92rem;margin:0 0 14px}
+    .story ul{color:var(--muted);font-size:.88rem;padding-left:19px;margin:0}
+    .story li{margin:7px 0}
+    .coming{margin-top:22px;padding:18px 20px;background:var(--surface-soft);border-radius:12px;border-left:3px solid var(--accent)}
+    .coming strong{display:block;margin-bottom:5px}
+    .coming span{font-size:.85rem;color:var(--muted)}
+    .principle{padding:26px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--muted);font-size:.92rem}
+    .back{font-weight:800;font-size:.84rem}
+    @media(max-width:800px){.story-grid{grid-template-columns:1fr}}
+</style>
+  <style id="site-content-protection">
+    html, body, body * { -webkit-user-select:none !important; -moz-user-select:none !important; -ms-user-select:none !important; user-select:none !important; -webkit-touch-callout:none !important; }
+    img, svg { -webkit-user-drag:none !important; user-drag:none !important; }
+  </style>
+</head>
+<body oncopy="return false" oncut="return false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
+<header class="site-header"><div class="shell nav"><a class="brand" href="../index.html"><strong>Surendra Mukkamalla</strong><span>Data · Cloud · AI Architecture & Engineering</span></a>
+<nav class="nav-links"><a href="../index.html#work">Work</a><a href="../index.html#lab">Architecture Lab</a><a href="../index.html#insights">Insights</a><a href="../index.html#about">About</a></nav></div></header>
+<main>
+<section class="case-hero"><div class="shell"><div class="eyebrow">Selected Work · Production Architecture</div><h1>Enterprise Agentic AI Architecture</h1><p class="case-summary">A high-level view of how I approach governed enterprise AI: turning structured data, unstructured knowledge and engineering systems into usable AI products while keeping architecture, security, observability and cost controls in the design.</p><div class="chips" style="margin-top:26px"><span class="chip">Snowflake Cortex AI</span><span class="chip">Semantic Views</span><span class="chip">NLQ</span><span class="chip">Cortex Search</span><span class="chip">Agents</span><span class="chip">MCP</span><span class="chip">Guardrails</span><span class="chip">Cost Controls</span></div></div></section>
+<section><div class="shell"><div class="section-head"><div><div class="kicker">Architecture Stories</div><h2>What the work covers.</h2></div><p>This page intentionally stays at architecture level today. It describes the patterns and engineering direction without exposing client-confidential implementation details.</p></div>
+<div class="story-grid"><article class="story"><div class="num">01 · Architecture Story</div><h2>Snowflake Cortex AI Products</h2><p>Designed AI product patterns around governed enterprise data: semantic views provide business meaning, Cortex Analyst enables natural-language analytics, Cortex Search supports retrieval over enterprise knowledge, and agents coordinate tools and data for broader workflows.</p><ul><li>Semantic layer for governed business context</li><li>NLQ and analyst experiences over structured data</li><li>Enterprise search / RAG over unstructured knowledge</li><li>Agent patterns combining data, search and tools</li></ul></article><article class="story"><div class="num">02 · Architecture Story</div><h2>Agentic Engineering &amp; Spec-Driven Development</h2><p>Applied AI-assisted engineering inside predefined architectural boundaries rather than relying on unconstrained code generation. Specifications, steering rules, hooks, agents and MCP tool integrations create a repeatable path from requirements to implementation.</p><ul><li>Kiro-based implementation patterns with portable concepts</li><li>MCP connections to governed enterprise tools</li><li>Git and Jira integration patterns</li><li>Hooks, agents, specifications and engineering guardrails</li></ul></article><article class="story"><div class="num">03 · Architecture Story</div><h2>AI Cost &amp; Engineering Efficiency</h2><p>Designed cost-aware patterns that reduce unnecessary context, tool calls and compute consumption. The same principle extends from developer assistants to Snowflake AI and data workloads: give each workflow the smallest useful context and the right-sized compute.</p><ul><li>Reusable context and focused specifications</li><li>Narrow MCP tools instead of unrestricted context</li><li>Token-aware prompts and workflow boundaries</li><li>Snowflake credit, warehouse and query-efficiency considerations</li></ul></article><article class="story"><div class="num">04 · Architecture Story</div><h2>Governance, Observability &amp; Production Trust</h2><p>Enterprise AI is treated as a production system rather than a standalone model. Identity, policy, evaluation, observability and human approval are incorporated according to the risk and action being performed.</p><ul><li>Governed tool access</li><li>Traceability and operational telemetry</li><li>Evaluation and quality controls</li><li>Human approval for sensitive actions</li></ul></article></div>
+<div class="coming"><strong>Coming next</strong><span>Deeper architecture details, implementation decisions, sanitized code snippets and selected GitHub reference code will be added progressively where appropriate.</span></div>
+</div></section>
+<section><div class="shell"><div class="principle"><strong>Portfolio note.</strong> Examples are generalized and sanitized from enterprise architecture and engineering work. Client names, proprietary code, credentials and confidential implementation details are intentionally excluded.</div><p style="margin-top:24px"><a class="back" href="../index.html#work">← Back to Selected Work</a></p></div></section>
+</main>
+<footer><div class="shell footer-row"><span>© 2026 Surendra Mukkamalla. All rights reserved.</span><span>Enterprise Data · Cloud · Agentic AI</span></div></footer>
+<script>
+document.addEventListener('contextmenu',e=>{if(!e.target.closest('a,button,input,textarea'))e.preventDefault();});
+document.addEventListener('copy',e=>{if(!e.target.closest('input,textarea'))e.preventDefault();});
+document.addEventListener('keydown',e=>{const k=(e.key||'').toLowerCase();if((e.ctrlKey||e.metaKey)&&['c','u','s','a','p','x'].includes(k))e.preventDefault();});
+</script></body></html>
