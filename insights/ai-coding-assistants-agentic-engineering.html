@@ -344,19 +344,20 @@ img,svg{-webkit-user-drag:none;user-drag:none}
 .copyright-protection-notice{max-width:1180px;margin:0 auto;padding:22px 24px 30px;border-top:1px solid rgba(15,23,42,.10);color:#64748b;font-size:12px;line-height:1.6;text-align:center}
 </style>
 
+
+<style id="homepage-font-and-navigation-unification">
+html,body,body *{font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+pre,code,pre *,code *{font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace!important;}
+html,body,body *{-webkit-user-select:none!important;-moz-user-select:none!important;-ms-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important;}
+img,svg{-webkit-user-drag:none!important;user-drag:none!important;}
+</style>
 </head>
 
-<body>
+<body oncopy="return false" oncut="return false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
 <header>
   <div class="container nav">
     <a class="brand" href="../index.html">Surendra Mukkamalla</a>
-    <nav class="nav-links" aria-label="Main navigation">
-      <a href="../index.html#work">Work</a>
-      <a href="../index.html#expertise">Expertise</a>
-      <a href="../index.html#about">About</a>
-      <a class="active" href="../index.html#insights">Insights</a>
-      <a href="../index.html#contact">Contact</a>
-    </nav>
+    <nav class="nav-links" aria-label="Main navigation"><a href="../index.html#work">Work</a><a href="../index.html#lab">Architecture Lab</a><a href="../index.html#insights">Insights</a><a href="../index.html#capabilities">Capabilities</a><a href="../index.html#about">About</a></nav>
   </div>
 </header>
 
@@ -829,5 +830,20 @@ document.addEventListener('keydown',function(e){
 })();
 </script>
 
+
+<script id="site-content-protection-script">
+(function(){
+  function block(e){ if(!e.target.closest('input,textarea')) e.preventDefault(); }
+  document.addEventListener('contextmenu',block);
+  document.addEventListener('copy',block);
+  document.addEventListener('cut',block);
+  document.addEventListener('dragstart',block);
+  document.addEventListener('selectstart',block);
+  document.addEventListener('keydown',function(e){
+    var k=(e.key||'').toLowerCase();
+    if((e.ctrlKey||e.metaKey)&&['c','u','s','a','p','x'].includes(k)) e.preventDefault();
+  });
+})();
+</script>
 </body>
 </html>
