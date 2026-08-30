@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Building an Enterprise AI Operations Agent | Surendra Mukkamalla</title>
+<meta name="description" content="Architecture and implementation blueprint for investigating failures across Airflow/MWAA, Control-M, ECS, shell workloads and Snowflake using LangGraph, Bedrock, Python, MCP and optional AgentCore.">
+<style>
+:root{--bg:#f7f9fc;--paper:#fff;--ink:#14233b;--muted:#5e6f84;--line:#dbe4ee;--blue:#1769d2;--navy:#0f2a4c;--green:#0a7f75;--amber:#a35b00;--sb:#eef6ff;--sg:#eef9f6;--sa:#fff7ea;--sv:#f5f2ff;--code:#0d2039}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+.article,.positioning,figure,pre,table,footer{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}body{margin:0;background:linear-gradient(180deg,#f7fbff 0,#fff 850px);color:var(--ink);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:17px;line-height:1.72}a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}header{position:sticky;top:0;z-index:30;background:rgba(248,250,253,.94);backdrop-filter:blur(14px);border-bottom:1px solid rgba(15,42,76,.08)}.hi{max-width:1180px;margin:auto;padding:14px 25px;display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{font-weight:850;color:var(--ink);letter-spacing:-.015em}.brand small{display:block;font-size:10px;color:var(--blue);letter-spacing:.13em;text-transform:uppercase;margin-top:3px}nav{display:flex;gap:24px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}.hero{max-width:1080px;margin:auto;padding:74px 26px 42px;text-align:center}.kick{font-size:12px;font-weight:850;text-transform:uppercase;letter-spacing:.15em;color:var(--green)}h1{font-size:clamp(39px,5.8vw,66px);line-height:1.03;letter-spacing:-.05em;margin:15px auto 21px;max-width:1050px}.subtitle{font-size:20px;color:#52667f;max-width:920px;margin:auto}.meta,.tags{display:flex;gap:8px 18px;justify-content:center;flex-wrap:wrap;margin-top:20px;color:#637287;font-size:13px}.tags{gap:8px}.tag{background:var(--sb);border:1px solid #d7e8fa;color:#315e91;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:800}.position{max-width:940px;margin:8px auto 58px;padding:0 26px}.note{background:#fff;border:1px solid var(--line);border-left:4px solid var(--green);border-radius:14px;padding:21px 24px;box-shadow:0 12px 30px rgba(15,42,76,.045)}.note strong{color:var(--green)}main{max-width:900px;margin:auto;padding:0 26px 90px}section{margin:0 0 67px}h2{font-size:32px;line-height:1.18;letter-spacing:-.03em;margin:0 0 16px}h3{font-size:22px;line-height:1.3;letter-spacing:-.018em;margin:34px 0 11px}p{margin:0 0 18px}.lead{font-size:20px;color:#30465f}.thesis{font-size:22px;line-height:1.55;font-weight:700;color:var(--navy);padding:22px 24px;border-radius:14px;background:var(--sb);border:1px solid #d8e8fa}.call{padding:19px 21px;border-radius:13px;border:1px solid var(--line);background:#fff;margin:22px 0}.call.am{background:var(--sa);border-color:#f0dcb8}.call.gr{background:var(--sg);border-color:#cfe8df}.call.vi{background:var(--sv);border-color:#ddd6f7}ul,ol{padding-left:24px}li{margin:6px 0}figure{margin:30px -80px 34px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:0 15px 38px rgba(15,42,76,.06)}figure svg{display:block;width:100%;height:auto}figcaption{text-align:center;font-size:13px;color:#6b798d;padding:10px 16px 2px}pre{margin:20px 0;background:var(--code);color:#eaf3ff;padding:22px;border-radius:14px;overflow:auto;font:13.5px/1.65 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}table{width:100%;border-collapse:collapse;margin:22px 0;font-size:14.3px}th,td{border:1px solid var(--line);padding:12px 13px;text-align:left;vertical-align:top}th{background:#edf5ff}.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin:23px 0}.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px}.card b{display:block;margin-bottom:7px}.card p{font-size:14.5px;line-height:1.55;color:var(--muted);margin:0}.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin:24px 0}.step{border:1px solid var(--line);background:#fff;border-radius:13px;padding:16px}.n{display:grid;place-items:center;width:27px;height:27px;border-radius:50%;background:var(--blue);color:#fff;font-weight:850;font-size:12px;margin-bottom:10px}.step b{display:block}.step span{font-size:13.5px;line-height:1.52;color:var(--muted)}.sc{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:850;color:var(--blue)}.refs{font-size:14px;color:#5e6f84}footer{border-top:1px solid var(--line);padding:34px 24px;text-align:center;color:#68788e;font-size:12px}@media(max-width:1080px){figure{margin-left:0;margin-right:0}}@media(max-width:760px){nav{display:none}.hero{padding-top:50px}h1{font-size:39px}.grid,.flow{grid-template-columns:1fr}main{padding-left:20px;padding-right:20px}figure{padding:8px}}
+
+/* Strong browser-side copy deterrence for the full article page */
+html, body, body * {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+}
+img, svg { -webkit-user-drag: none !important; user-drag: none !important; }
+
+</style>
+</head>
+<body oncopy="return false" oncut="return false" oncontextmenu="return false"
+onselectstart="return false" ondragstart="return false">
+<header><div class="hi"><a class="brand" href="/">SURENDRA MUKKAMALLA<small>Enterprise Data · Cloud · AI Architecture & Engineering</small></a><nav><a href="/#work">Work</a><a href="/#architecture">Architecture</a><a href="/#insights">Insights</a><a href="/#about">About</a></nav></div></header>
+<section class="hero"><div class="kick">Architecture Lab · Enterprise Agentic AI</div><h1>Building an Enterprise AI Operations Agent</h1><p class="subtitle">From workload failure to evidence collection, root-cause reasoning and governed remediation across Airflow/MWAA, Control-M, ECS, shell workloads and Snowflake.</p><div class="meta"><span>Architecture + implementation blueprint</span><span>•</span><span>~15–18 minute read</span><span>•</span><span>August 2026</span></div><div class="tags"><span class="tag">Amazon Bedrock</span><span class="tag">LangGraph</span><span class="tag">Python</span><span class="tag">LangChain</span><span class="tag">Airflow / MWAA</span><span class="tag">Control-M</span><span class="tag">Amazon ECS</span><span class="tag">Snowflake</span><span class="tag">MCP</span><span class="tag">AgentCore — optional</span></div></section>
+<div class="position"><div class="note"><strong>How to read this article.</strong> This article combines three things: a hands-on reference implementation, the focused POC path I would validate first, and the enterprise target architecture required to scale the pattern. I separate those deliberately. Components described as reference implementation or POC direction should not be read as claims that every integration is already deployed in a production client environment. The goal is to show both how the solution works technically and how I would evolve it responsibly into production.</div></div>
+<main>
+<section><div class="sc">01 · Business problem</div><h2>A scheduler tells us where a workload failed. It usually cannot tell us why the business process failed.</h2><p class="lead">Large enterprises rarely have one orchestration technology. Modern data pipelines may run in Airflow or Amazon MWAA, long-lived batch workloads may remain in Control-M, containerized processes may run on Amazon ECS, and older integration chains may still depend on shell scripts that invoke SnowSQL, APIs, SFTP utilities or internal applications.</p><p>When a workload fails, the first alert usually identifies the execution point: an Airflow task failed, a Control-M job ended with a non-zero return code, an ECS task stopped, or a shell wrapper returned an error. That is only the first layer of evidence.</p><div class="thesis">The agent's first responsibility is evidence collection and correlation—not root-cause generation.</div><p style="margin-top:22px">A Control-M job may fail because a shell script failed. The shell script may have called SnowSQL. SnowSQL may expose a Snowflake query ID. Query history may finally reveal a schema mismatch. The scheduler is where the failure surfaced; it is not necessarily where the failure originated.</p><div class="call vi">“Why did yesterday’s customer pipeline fail? Determine the actual root cause, check the approved runbook, determine whether an incident already exists, and prepare the safest next action.”</div></section>
+
+<section><div class="sc">02 · Design principles</div><h2>Evidence first. Reasoning second. Action last.</h2><div class="grid"><div class="card"><b>Separate detection from investigation</b><p>An alert starts the process. A separate workflow gathers evidence across systems.</p></div><div class="card"><b>Follow the execution chain</b><p>Start from the failed workload and follow task IDs, log streams, script paths, query IDs, files and request IDs.</p></div><div class="card"><b>Normalize before reasoning</b><p>Translate Airflow, Control-M and ECS metadata into one failure-context contract.</p></div><div class="card"><b>Keep policy outside the LLM</b><p>Authorization, approval, idempotency and environment controls remain deterministic.</p></div><div class="card"><b>Use narrow tools</b><p>Expose read_task_log or get_query_history, not unrestricted shell, HTTP or SQL execution.</p></div><div class="card"><b>Preserve provenance</b><p>Every conclusion should trace to source evidence or an approved runbook passage.</p></div></div></section>
+
+<section><div class="sc">03 · Full reference architecture</div><h2>Six layers from failure signal to governed remediation</h2><p>The architecture separates failure detection, source adapters, evidence collectors, normalized investigation state, reasoning and remediation. AgentCore is not required for this core flow.</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 1160"><defs><marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#6889aa"/></marker></defs><style>.bg{fill:#f8fbff}.b{fill:#fff;stroke:#cbddec;stroke-width:2}.bl{fill:#edf6ff;stroke:#91bce9}.gr{fill:#eef9f6;stroke:#8fcfbd}.am{fill:#fff7ea;stroke:#e4c07c}.vi{fill:#f5f2ff;stroke:#b8ace5}.nv{fill:#0f2a4c}.t{font:700 22px Inter,Arial;fill:#16304e}.s{font:600 15px Inter,Arial;fill:#5b6e85}.c{font:800 15px Inter,Arial;letter-spacing:1.6px;fill:#1769d2}.w{fill:#fff}.ln{stroke:#6889aa;stroke-width:3;fill:none;marker-end:url(#m)}</style><rect class="bg" width="1500" height="1160"/><rect x="50" y="35" width="1400" height="82" rx="18" class="nv"/><text x="82" y="72" class="w" style="font:800 28px Inter,Arial">Enterprise AI Operations Agent</text><text x="82" y="99" class="w" style="font:500 16px Inter,Arial">Failure detection → evidence collection → normalized context → reasoning → governed remediation</text><text x="65" y="159" class="c">1 · FAILURE SOURCES</text><rect x="65" y="178" width="300" height="92" rx="14" class="b bl"/><text x="215" y="215" text-anchor="middle" class="t">Airflow / MWAA</text><text x="215" y="244" text-anchor="middle" class="s">DAG run · task instance</text><rect x="390" y="178" width="300" height="92" rx="14" class="b bl"/><text x="540" y="215" text-anchor="middle" class="t">Control-M</text><text x="540" y="244" text-anchor="middle" class="s">job · step · sysout</text><rect x="715" y="178" width="300" height="92" rx="14" class="b bl"/><text x="865" y="215" text-anchor="middle" class="t">ECS / Batch</text><text x="865" y="244" text-anchor="middle" class="s">task · container</text><rect x="1040" y="178" width="300" height="92" rx="14" class="b bl"/><text x="1190" y="215" text-anchor="middle" class="t">Shell / Legacy</text><text x="1190" y="244" text-anchor="middle" class="s">script · stderr · log</text><rect x="485" y="313" width="530" height="82" rx="16" class="b vi"/><text x="750" y="347" text-anchor="middle" class="t">Failure Event + Investigation Router</text><text x="750" y="374" text-anchor="middle" class="s">system · workload · run ID · environment · correlation keys</text><path d="M215 270L620 313" class="ln"/><path d="M540 270L690 313" class="ln"/><path d="M865 270L810 313" class="ln"/><path d="M1190 270L890 313" class="ln"/><text x="65" y="447" class="c">2 · EXECUTION SOURCE ADAPTERS</text><rect x="65" y="466" width="300" height="96" rx="14" class="b"/><text x="215" y="502" text-anchor="middle" class="t">MWAA Adapter</text><text x="215" y="530" text-anchor="middle" class="s">REST API · DAG/task metadata</text><rect x="390" y="466" width="300" height="96" rx="14" class="b"/><text x="540" y="502" text-anchor="middle" class="t">Control-M Adapter</text><text x="540" y="530" text-anchor="middle" class="s">job metadata · output · command</text><rect x="715" y="466" width="300" height="96" rx="14" class="b"/><text x="865" y="502" text-anchor="middle" class="t">ECS Adapter</text><text x="865" y="530" text-anchor="middle" class="s">task · container · log stream</text><rect x="1040" y="466" width="300" height="96" rx="14" class="b"/><text x="1190" y="502" text-anchor="middle" class="t">Shell Adapter</text><text x="1190" y="530" text-anchor="middle" class="s">script · exit · stderr</text><path d="M750 395L215 463" class="ln"/><path d="M750 395L540 463" class="ln"/><path d="M750 395L865 463" class="ln"/><path d="M750 395L1190 463" class="ln"/><text x="65" y="620" class="c">3 · EVIDENCE COLLECTORS</text><rect x="65" y="640" width="260" height="94" rx="14" class="b am"/><text x="195" y="676" text-anchor="middle" class="t">CloudWatch</text><text x="195" y="705" text-anchor="middle" class="s">task / container logs</text><rect x="345" y="640" width="260" height="94" rx="14" class="b am"/><text x="475" y="676" text-anchor="middle" class="t">Snowflake</text><text x="475" y="705" text-anchor="middle" class="s">query · load · task history</text><rect x="625" y="640" width="260" height="94" rx="14" class="b am"/><text x="755" y="676" text-anchor="middle" class="t">S3 / Files</text><text x="755" y="705" text-anchor="middle" class="s">manifest · reject · control</text><rect x="905" y="640" width="260" height="94" rx="14" class="b am"/><text x="1035" y="676" text-anchor="middle" class="t">Application APIs</text><text x="1035" y="705" text-anchor="middle" class="s">service / dependency health</text><rect x="1185" y="640" width="260" height="94" rx="14" class="b am"/><text x="1315" y="676" text-anchor="middle" class="t">Runbook RAG</text><text x="1315" y="705" text-anchor="middle" class="s">approved operating knowledge</text><rect x="380" y="780" width="740" height="94" rx="17" class="nv"/><text x="750" y="817" text-anchor="middle" class="w" style="font:800 23px Inter,Arial">Normalized Failure Context</text><text x="750" y="847" text-anchor="middle" class="w" style="font:500 15px Inter,Arial">execution + evidence + provenance + correlation keys + risk + next lookup</text><path d="M195 734L530 780" class="ln"/><path d="M475 734L620 780" class="ln"/><path d="M755 734L750 780" class="ln"/><path d="M1035 734L880 780" class="ln"/><path d="M1315 734L970 780" class="ln"/><text x="65" y="930" class="c">4 · INVESTIGATION, REASONING & ACTION</text><rect x="65" y="950" width="300" height="108" rx="14" class="b vi"/><text x="215" y="988" text-anchor="middle" class="t">LangGraph</text><text x="215" y="1017" text-anchor="middle" class="s">state · routing · checkpoints</text><text x="215" y="1041" text-anchor="middle" class="s">interrupt / resume</text><rect x="390" y="950" width="300" height="108" rx="14" class="b gr"/><text x="540" y="988" text-anchor="middle" class="t">Amazon Bedrock</text><text x="540" y="1017" text-anchor="middle" class="s">correlation · hypothesis</text><text x="540" y="1041" text-anchor="middle" class="s">grounded synthesis</text><rect x="715" y="950" width="300" height="108" rx="14" class="b am"/><text x="865" y="988" text-anchor="middle" class="t">Python Policy</text><text x="865" y="1017" text-anchor="middle" class="s">allowlist · identity · risk</text><text x="865" y="1041" text-anchor="middle" class="s">idempotency · approval</text><rect x="1040" y="950" width="405" height="108" rx="14" class="b bl"/><text x="1243" y="988" text-anchor="middle" class="t">Governed Remediation</text><text x="1243" y="1017" text-anchor="middle" class="s">report · Jira · retry · remediation</text><text x="1243" y="1041" text-anchor="middle" class="s">MCP / Gateway optional</text><path d="M750 874L215 947" class="ln"/><path d="M750 874L540 947" class="ln"/><path d="M750 874L865 947" class="ln"/><path d="M1015 1004L1037 1004" class="ln"/><rect x="65" y="1092" width="1380" height="46" rx="13" class="nv"/><text x="750" y="1122" text-anchor="middle" class="w" style="font:700 15px Inter,Arial">IAM · secrets · tool authorization · audit · observability · evaluation · cost · latency · data classification</text></svg><figcaption>Figure 1 — The scheduler/orchestrator is only the starting point. The investigator follows evidence into the system where execution actually failed.</figcaption></figure></section>
+
+
+<section><div class="sc">04 · What exists today vs. what comes next</div>
+<h2>Separate the reference implementation, the focused POC and the production target</h2>
+<p class="lead">A useful architecture article should make it obvious what has been designed, what exists as a lab/reference implementation, what still needs real-system validation, and what belongs to a later production evolution.</p>
+<table><thead><tr><th>Capability</th><th>Status in this article</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>LangGraph investigation state model</td><td><span class="pill">Reference implementation</span></td><td>Explicit routing, state, policy gates and resumable investigation flow.</td></tr>
+<tr><td>Normalized FailureContext</td><td><span class="pill">Reference implementation</span></td><td>Common contract across Airflow, Control-M, ECS, shell and downstream evidence.</td></tr>
+<tr><td>Deterministic policy / approval pattern</td><td><span class="pill">Reference implementation</span></td><td>Keeps authorization and write decisions outside model reasoning.</td></tr>
+<tr><td>MWAA → CloudWatch → Snowflake evidence chain</td><td>Focused POC path</td><td>First real integration to validate end-to-end because it is narrow, measurable and operationally useful.</td></tr>
+<tr><td>Historical incident search</td><td>POC extension</td><td>Search Jira, ServiceNow or an operational incident store for similar failures and previous resolutions.</td></tr>
+<tr><td>Control-M → shell → Snowflake</td><td>Enterprise expansion</td><td>Extends the normalized investigation model to legacy batch workloads.</td></tr>
+<tr><td>ECS → CloudWatch → downstream systems</td><td>Enterprise expansion</td><td>Extends investigation to containerized workloads and application dependencies.</td></tr>
+<tr><td>MCP capability layer</td><td>Production evolution</td><td>Standardizes governed enterprise tools as the integration surface grows.</td></tr>
+<tr><td>Amazon Bedrock AgentCore</td><td>Optional production evolution</td><td>Managed runtime, gateway, memory and observability options where they add operational value.</td></tr>
+</tbody></table>
+<div class="callout green"><strong>Publishing principle:</strong> once a real MWAA → CloudWatch → Snowflake → Bedrock run is executed and measured, the corresponding row can be changed to “Implemented &amp; validated,” with actual results added to the article.</div>
+</section>
+
+<section><div class="sc">05 · Why a support team would use it</div>
+<h2>The agent should reduce investigation time, not duplicate the alert</h2>
+<p>Airflow, Control-M and monitoring systems already tell support teams that a workload failed. Repeating that notification in a chat interface adds little value. The agent becomes useful when it automatically performs the investigation steps a support engineer would otherwise perform manually across several consoles.</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1450 650"><defs><marker id="a4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#6a89aa"/></marker></defs><style>.b{fill:#fff;stroke:#cbddec;stroke-width:2}.bl{fill:#edf6ff;stroke:#8fb9e7}.gr{fill:#eef9f6;stroke:#8fcbb9}.nv{fill:#0f2a4c}.t{font:700 19px Inter,Arial;fill:#16304e}.s{font:600 13px Inter,Arial;fill:#5d7086}.w{fill:#fff}.l{stroke:#6a89aa;stroke-width:3;fill:none;marker-end:url(#a4)}</style><rect width="1450" height="650" fill="#f8fbff"/><text x="55" y="50" class="t" style="font-size:25px">From notification to investigation</text><text x="55" y="100" class="t">Traditional support workflow</text><rect x="55" y="125" width="190" height="75" rx="12" class="bl"/><text x="150" y="155" text-anchor="middle" class="t">Failure Alert</text><text x="150" y="180" text-anchor="middle" class="s">DAG / job failed</text><rect x="285" y="125" width="190" height="75" rx="12" class="b"/><text x="380" y="155" text-anchor="middle" class="t">Open Scheduler</text><text x="380" y="180" text-anchor="middle" class="s">find failed step</text><rect x="515" y="125" width="190" height="75" rx="12" class="b"/><text x="610" y="155" text-anchor="middle" class="t">Open Logs</text><text x="610" y="180" text-anchor="middle" class="s">find exception</text><rect x="745" y="125" width="190" height="75" rx="12" class="b"/><text x="840" y="155" text-anchor="middle" class="t">Check Platform</text><text x="840" y="180" text-anchor="middle" class="s">Snowflake / API</text><rect x="975" y="125" width="190" height="75" rx="12" class="b"/><text x="1070" y="155" text-anchor="middle" class="t">Search History</text><text x="1070" y="180" text-anchor="middle" class="s">tickets / runbooks</text><rect x="1205" y="125" width="190" height="75" rx="12" class="b"/><text x="1300" y="155" text-anchor="middle" class="t">Decide Action</text><text x="1300" y="180" text-anchor="middle" class="s">manual correlation</text><path d="M245 162L282 162" class="l"/><path d="M475 162L512 162" class="l"/><path d="M705 162L742 162" class="l"/><path d="M935 162L972 162" class="l"/><path d="M1165 162L1202 162" class="l"/><text x="55" y="295" class="t">Agent-assisted workflow</text><rect x="55" y="320" width="210" height="90" rx="13" class="bl"/><text x="160" y="354" text-anchor="middle" class="t">Failure Alert</text><text x="160" y="381" text-anchor="middle" class="s">or support question</text><rect x="320" y="320" width="720" height="90" rx="13" class="nv"/><text x="680" y="352" text-anchor="middle" class="w" style="font:800 21px Inter,Arial">Agent gathers and correlates evidence</text><text x="680" y="380" text-anchor="middle" class="w" style="font:500 14px Inter,Arial">scheduler → logs → Snowflake / runtime → historical incidents → runbook</text><rect x="1095" y="320" width="300" height="90" rx="13" class="gr"/><text x="1245" y="352" text-anchor="middle" class="t">Evidence-backed Answer</text><text x="1245" y="380" text-anchor="middle" class="s">root cause + next action</text><path d="M265 365L317 365" class="l"/><path d="M1040 365L1092 365" class="l"/><rect x="320" y="480" width="1075" height="110" rx="16" class="b"/><text x="350" y="515" class="t">Example chat</text><text x="350" y="546" class="s" style="font-size:15px">“Why did CUSTOMER_EDS_LOAD fail this morning? Has this happened before, and what should we do?”</text><text x="350" y="575" class="s" style="font-size:15px">The answer should cite current execution evidence, comparable historical incidents and the approved procedure.</text></svg><figcaption>Figure 4 — The business case is investigation acceleration. The notification already exists; the agent removes manual console-hopping and correlation work.</figcaption></figure>
+<h3>What a useful chat answer looks like</h3>
+<pre>User:
+Why did CUSTOMER_EDS_LOAD fail this morning?
+
+Agent:
+I traced the failed execution across three systems.
+
+1. Control-M
+   LOAD_CUSTOMER_EDS failed at 06:08.
+   The failing command was load_customer_eds.sh; exit code 1.
+
+2. Shell execution
+   The script reached SnowSQL successfully.
+   SnowSQL returned query ID 01c1....
+
+3. Snowflake
+   Query 01c1... failed with:
+   invalid identifier 'CAMPAIGN_SOURCE'.
+
+4. History
+   I found a similar resolved incident associated with the
+   same workload and schema-drift signature.
+
+Assessment:
+The scheduler and shell wrapper appear healthy.
+The strongest evidence points to an upstream/schema-contract change.
+
+Recommended next step:
+Validate the upstream schema change and update the stage-to-EDS
+mapping before retrying. An immediate retry is likely to fail again.</pre>
+<p>The answer is valuable only if the evidence was actually retrieved. The model should not manufacture the Control-M status, query ID, historical incident or remediation.</p>
+</section>
+
+<section><div class="sc">06 · Historical incidents and operational memory</div>
+<h2>Previous incidents must come from an authoritative source — not from the LLM's memory</h2>
+<p>When a user asks “Has this happened before?” the agent needs an incident-search capability. Depending on the enterprise, that tool may query Jira, ServiceNow, another support platform or a curated operational-history table.</p>
+<figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1450 620"><defs><marker id="a5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#6989aa"/></marker></defs><style>.b{fill:#fff;stroke:#cbddec;stroke-width:2}.bl{fill:#edf6ff;stroke:#8fb9e7}.gr{fill:#eef9f6;stroke:#8fcbb9}.am{fill:#fff7ea;stroke:#e1bd7b}.nv{fill:#0f2a4c}.t{font:700 20px Inter,Arial;fill:#16304e}.s{font:600 14px Inter,Arial;fill:#5d7086}.w{fill:#fff}.l{stroke:#6989aa;stroke-width:3;fill:none;marker-end:url(#a5)}</style><rect width="1450" height="620" fill="#f8fbff"/><rect x="70" y="75" width="270" height="100" rx="15" class="bl"/><text x="205" y="113" text-anchor="middle" class="t">Current Failure</text><text x="205" y="143" text-anchor="middle" class="s">workload + error signature</text><rect x="435" y="75" width="330" height="100" rx="15" class="nv"/><text x="600" y="113" text-anchor="middle" class="w" style="font:800 20px Inter,Arial">Incident Search Tool</text><text x="600" y="143" text-anchor="middle" class="w" style="font:500 14px Inter,Arial">exact + semantic matching</text><path d="M340 125L432 125" class="l"/><rect x="860" y="30" width="250" height="90" rx="14" class="b"/><text x="985" y="65" text-anchor="middle" class="t">Jira</text><text x="985" y="93" text-anchor="middle" class="s">issues / resolutions</text><rect x="860" y="145" width="250" height="90" rx="14" class="b"/><text x="985" y="180" text-anchor="middle" class="t">ServiceNow</text><text x="985" y="208" text-anchor="middle" class="s">incidents / problem records</text><rect x="860" y="260" width="250" height="90" rx="14" class="am"/><text x="985" y="295" text-anchor="middle" class="t">OPS History</text><text x="985" y="323" text-anchor="middle" class="s">normalized Snowflake tables</text><path d="M765 115L857 75" class="l"/><path d="M765 125L857 190" class="l"/><path d="M730 175L857 305" class="l"/><rect x="1180" y="110" width="220" height="150" rx="15" class="gr"/><text x="1290" y="145" text-anchor="middle" class="t">Similar Incidents</text><text x="1290" y="178" text-anchor="middle" class="s">incident ID</text><text x="1290" y="202" text-anchor="middle" class="s">root cause</text><text x="1290" y="226" text-anchor="middle" class="s">resolution</text><path d="M1110 75L1177 145" class="l"/><path d="M1110 190L1177 185" class="l"/><path d="M1110 305L1177 225" class="l"/><rect x="435" y="420" width="770" height="125" rx="16" class="nv"/><text x="820" y="458" text-anchor="middle" class="w" style="font:800 21px Inter,Arial">Agent correlation</text><text x="820" y="491" text-anchor="middle" class="w" style="font:500 14px Inter,Arial">Compare current evidence with prior failure signatures and verified resolutions.</text><text x="820" y="520" text-anchor="middle" class="w" style="font:500 14px Inter,Arial">Historical data remains authoritative in source systems; conversational memory is not the system of record.</text><path d="M1290 260L1100 417" class="l"/></svg><figcaption>Figure 5 — “Memory” and “history” are different. Incident history is retrieved from operational systems; agent memory is only workflow or conversational context.</figcaption></figure>
+<h3>How incident matching can work</h3><p>The current failure can produce a compact signature containing workload, failed component, error code, normalized error text, affected table/service and other correlation keys. The search tool can use exact filters first and semantic similarity second.</p>
+<pre>{
+  "workload": "CUSTOMER_EDS_LOAD",
+  "failure_class": "schema",
+  "failed_component": "stage_to_eds",
+  "platform": "snowflake",
+  "object": "CUSTOMER_EDS",
+  "error_signature": "invalid identifier CAMPAIGN_SOURCE"
+}</pre>
+<p>The result returned to the agent should contain only fields it is authorized to see, such as incident ID, timestamps, root-cause classification, verified resolution, support owner and source reference.</p>
+<h3>Centralized operational history</h3><p>At enterprise scale, I would consider persisting normalized operational metadata into a small observability schema rather than querying every historical system for every chat request.</p>
+<pre>OPS_OBSERVABILITY
+├── WORKLOAD_RUN
+├── WORKLOAD_STEP
+├── FAILURE_EVIDENCE
+├── INCIDENT_HISTORY
+└── AGENT_INVESTIGATION</pre>
+<p>This creates a fast historical layer for questions such as “How many times has this failed in 90 days?”, “What were the most common root causes?”, or “Which resolution worked previously?” The agent can still drill into the source platform when raw evidence is required.</p>
+</section>
+
+<section><div class="sc">07 · Focused POC</div>
+<h2>The first POC should prove the investigation path, not the entire enterprise platform</h2>
+<p>I would start with one narrow end-to-end scenario: <strong>MWAA → CloudWatch → Snowflake → LangGraph → Bedrock → read-only diagnosis</strong>. That is enough to demonstrate whether the agent genuinely reduces support effort.</p>
+<div class="two"><div class="card"><b>POC input</b><p>A known failed DAG/run/task from a safe environment, or a controlled failure generated specifically for the lab.</p></div><div class="card"><b>POC evidence</b><p>Real task metadata, relevant CloudWatch error context and a real Snowflake query/load-history result.</p></div><div class="card"><b>POC output</b><p>Evidence-backed failure chain, root-cause classification, confidence, missing evidence and recommended next action.</p></div><div class="card"><b>POC success measure</b><p>Compare time, tool calls and diagnosis quality against the manual production-support investigation path.</p></div></div>
+<h3>What I would measure</h3>
+<table><thead><tr><th>Metric</th><th>Why it matters</th></tr></thead><tbody>
+<tr><td>Time to gather evidence</td><td>Shows whether the agent removes meaningful manual work.</td></tr>
+<tr><td>Time to diagnosis</td><td>Directly supports the management business case.</td></tr>
+<tr><td>Correct root-cause classification</td><td>Prevents a fast but misleading answer.</td></tr>
+<tr><td>Unsupported-claim rate</td><td>Measures whether the model invents conclusions.</td></tr>
+<tr><td>Average Bedrock tokens/cost per failure</td><td>Shows whether the design is economically reasonable.</td></tr>
+<tr><td>Human override rate</td><td>Shows how often support engineers disagree with the recommendation.</td></tr>
+</tbody></table>
+<div class="callout amber"><strong>Important:</strong> until this real-system path is executed and measured, the article should call it the “focused POC path,” not a completed production implementation.</div>
+</section>
+
+<section><div class="sc">08 · Cost-aware design</div>
+<h2>Do not send every successful job — or every log line — to an LLM</h2>
+<p>The cheapest and most reliable architecture is event-driven and selective. Successful workloads should normally require no model call. Deterministic collectors should reduce the evidence before Bedrock is invoked.</p>
+<pre>Successful run
+    → no AI investigation
+
+Failure / SLA breach / repeated retry / DQ exception
+    ↓
+deterministic collectors
+    ↓
+filter relevant error window
+    ↓
+extract IDs + structured facts
+    ↓
+retrieve only necessary downstream evidence
+    ↓
+Bedrock reasoning
+    ↓
+evidence-backed diagnosis</pre>
+<p>A large CloudWatch log should not become a large prompt. A collector can select the failed task's time window, ERROR/exception records and correlation IDs, then pass a compact evidence package to the model. The same principle applies to Snowflake: query history deterministically and provide only the relevant rows.</p>
+<p>Historical questions can use the normalized operational-history store first and drill into raw logs only when needed. This reduces repeated API calls, latency and token consumption.</p>
+</section>
+
+<section><div class="sc">09 · How users interact with the agent</div>
+<h2>Developer tools build the solution; production support uses the operations agent</h2>
+<p class="lead">Kiro, Claude Code and VS Code can help engineers build, test and evolve this application, but they are not the production-support interface. In production, the support analyst should interact with a dedicated operations-agent experience — initially a simple internal chat or test harness, and later an approved web, portal, Slack or Teams experience if the organization chooses.</p>
+
+<figure>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1480 760" role="img" aria-label="Development versus production interaction architecture">
+<defs><marker id="u1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#6a89aa"/></marker></defs>
+<style>.bx{fill:#fff;stroke:#cbddec;stroke-width:2}.bl{fill:#edf6ff;stroke:#8fb9e7;stroke-width:2}.gr{fill:#eef9f6;stroke:#8fcbb9;stroke-width:2}.am{fill:#fff7ea;stroke:#e1bd7b;stroke-width:2}.nv{fill:#0f2a4c}.tt{font:700 20px Inter,Arial;fill:#16304e}.ss{font:600 14px Inter,Arial;fill:#5d7086}.ww{fill:#fff}.ln{stroke:#6a89aa;stroke-width:3;fill:none;marker-end:url(#u1)}</style>
+<rect width="1480" height="760" fill="#f8fbff"/>
+<text x="60" y="54" class="tt" style="font-size:26px">Development and production are different interaction paths</text>
+
+<text x="80" y="115" class="tt">Development / engineering</text>
+<rect x="80" y="145" width="300" height="105" rx="15" class="bl"/>
+<text x="230" y="182" text-anchor="middle" class="tt">Kiro / Claude Code / VS Code</text>
+<text x="230" y="213" text-anchor="middle" class="ss">build · test · debug · evaluate</text>
+
+<rect x="80" y="325" width="300" height="105" rx="15" class="bx"/>
+<text x="230" y="363" text-anchor="middle" class="tt">Agent Source Code</text>
+<text x="230" y="394" text-anchor="middle" class="ss">Python · LangGraph · tests</text>
+<path d="M230 250L230 322" class="ln"/>
+
+<rect x="80" y="505" width="300" height="105" rx="15" class="am"/>
+<text x="230" y="543" text-anchor="middle" class="tt">Optional MCP During Dev</text>
+<text x="230" y="574" text-anchor="middle" class="ss">test standardized tools</text>
+<path d="M230 430L230 502" class="ln"/>
+
+<line x1="470" y1="105" x2="470" y2="680" stroke="#d6e2ee" stroke-width="3" stroke-dasharray="8 8"/>
+
+<text x="550" y="115" class="tt">Production / operations</text>
+<rect x="550" y="145" width="260" height="105" rx="15" class="bl"/>
+<text x="680" y="182" text-anchor="middle" class="tt">Production Support</text>
+<text x="680" y="213" text-anchor="middle" class="ss">asks operational questions</text>
+
+<rect x="550" y="325" width="260" height="105" rx="15" class="gr"/>
+<text x="680" y="363" text-anchor="middle" class="tt">Operations Chat UI</text>
+<text x="680" y="394" text-anchor="middle" class="ss">web / portal / approved channel</text>
+<path d="M680 250L680 322" class="ln"/>
+
+<rect x="900" y="325" width="310" height="105" rx="15" class="nv"/>
+<text x="1055" y="360" text-anchor="middle" class="ww" style="font:800 20px Inter,Arial">Agent Application</text>
+<text x="1055" y="391" text-anchor="middle" class="ww" style="font:500 14px Inter,Arial">Python + LangGraph + policy</text>
+<path d="M810 377L897 377" class="ln"/>
+
+<rect x="900" y="505" width="310" height="105" rx="15" class="bl"/>
+<text x="1055" y="543" text-anchor="middle" class="tt">Amazon Bedrock</text>
+<text x="1055" y="574" text-anchor="middle" class="ss">model / reasoning layer</text>
+<path d="M1055 430L1055 502" class="ln"/>
+
+<rect x="1250" y="245" width="180" height="92" rx="14" class="bx"/>
+<text x="1340" y="278" text-anchor="middle" class="tt">Direct APIs</text>
+<text x="1340" y="306" text-anchor="middle" class="ss">MWAA · CW · SF</text>
+
+<rect x="1250" y="365" width="180" height="92" rx="14" class="am"/>
+<text x="1340" y="398" text-anchor="middle" class="tt">MCP Tools</text>
+<text x="1340" y="426" text-anchor="middle" class="ss">standardized access</text>
+
+<rect x="1250" y="485" width="180" height="92" rx="14" class="gr"/>
+<text x="1340" y="518" text-anchor="middle" class="tt">RAG / Runbooks</text>
+<text x="1340" y="546" text-anchor="middle" class="ss">approved knowledge</text>
+
+<path d="M1210 360L1247 291" class="ln"/>
+<path d="M1210 377L1247 411" class="ln"/>
+<path d="M1210 394L1247 531" class="ln"/>
+
+<text x="550" y="685" class="ss" style="font-size:16px">The first POC can use a CLI or very small internal UI. A polished production chat experience is not required to prove the investigation flow.</text>
+</svg>
+<figcaption>Figure 6 — Kiro, Claude Code and VS Code are development environments. The production user interacts with the operations-agent application; Bedrock supplies model reasoning, while tools retrieve authoritative evidence.</figcaption>
+</figure>
+
+<h3>Where MCP fits</h3>
+<p>MCP is not the chatbot and it is not tied to one IDE. It is a standardized tool-access protocol. During development, an MCP-capable environment such as Kiro or Claude Code can consume MCP tools. The production agent can also act as an MCP client independently of those developer tools.</p>
+
+<div class="two">
+  <div class="card"><b>First POC</b><p>Keep it simple: Python calls MWAA, CloudWatch and Snowflake directly. Prove that evidence collection and diagnosis provide operational value before introducing another infrastructure layer.</p></div>
+  <div class="card"><b>Enterprise evolution</b><p>Introduce MCP when standardized discovery, access, governance and reuse across many agent tools become valuable. The production operations agent can consume those tools directly.</p></div>
+</div>
+
+<pre>FIRST POC
+
+Support user / test harness
+        ↓
+Python + LangGraph
+        ↓
+Amazon Bedrock
+        ↓
+Direct tools
+ ├─ MWAA API
+ ├─ CloudWatch
+ └─ Snowflake
+
+
+ENTERPRISE EVOLUTION
+
+Operations Chat UI
+        ↓
+Agent Application
+        ↓
+Amazon Bedrock
+        ↓
+Direct tools + MCP tools + RAG
+        ↓
+MWAA · CloudWatch · Snowflake · Jira · Runbooks · other governed systems</pre>
+
+<div class="callout green"><strong>Design choice:</strong> MCP should support the architecture, not lead it. The first question is whether the agent can reduce production-support investigation time with trustworthy evidence. Standardizing the tool layer comes after that value is demonstrated.</div>
+</section>
+
+<section><div class="sc">10 · Detection</div><h2>Detection and investigation are different concerns</h2><p>The investigation can begin from an event-driven trigger—Airflow failure callback, ECS task-state event, Control-M alert, CloudWatch alarm—or from scheduled polling where event integration is not yet available.</p><pre>{
+  "event_type": "WORKLOAD_FAILURE",
+  "source": "mwaa",
+  "environment": "prod",
+  "workload": "customer_daily_pipeline",
+  "run_id": "scheduled__2026-08-29T06:00:00Z",
+  "failed_unit": "stage_to_eds"
+}</pre><div class="call gr"><strong>Key point:</strong> the failure event only needs enough identity and correlation data to find authoritative evidence. It does not need to contain the complete diagnosis.</div></section>
+
+<section><div class="sc">11 · Source adapters</div><h2>Airflow, Control-M, ECS and shell require different collectors</h2><h3>Airflow / Amazon MWAA</h3><p>The MWAA adapter retrieves DAG-run and task-instance metadata, identifies the failed task, retry attempt, operator and timestamps, then locates task logs and downstream identifiers. Current MWAA supports programmatic Airflow REST API access, making this suitable for an external investigation service.</p><pre>MWAA failure
+  ↓ DAG run / task instance
+failed task: stage_to_eds
+  ↓ task log / CloudWatch
+SnowflakeProgrammingError
+query_id = 01bf...
+  ↓ Snowflake evidence collector
+actual SQL/data error</pre><h3>Control-M</h3><p>For Control-M, the first useful artifacts are the job execution, run/order ID, command, host/agent, return code and job output/sysout. A job can then lead into a shell collector.</p><pre>Control-M: LOAD_CUSTOMER_EDS FAILED
+  ↓
+/apps/customer/load_customer_eds.sh
+exit code = 1
+  ↓
+Shell log: SnowSQL failed
+query_id = 01c1...
+  ↓
+Snowflake Query History</pre><h3>Amazon ECS</h3><p>The ECS adapter collects cluster, task ARN, task definition, container, stopped reason, exit code and CloudWatch log stream. The container log can expose a downstream API request ID, Snowflake query ID, S3 key or another correlation key.</p><h3>Legacy shell</h3><p>The shell adapter captures script identity, sanitized arguments, host, return code, stdout/stderr locations and child-system markers. Treating shell as a first-class execution source is important because many legacy schedulers ultimately launch scripts.</p></section>
+
+<section><div class="sc">12 · Evidence layer</div><h2>Follow evidence instead of querying every system</h2><table><thead><tr><th>Source</th><th>Evidence</th><th>Purpose</th></tr></thead><tbody><tr><td>MWAA / Airflow</td><td>DAG run, task instance, operator, retry, logs</td><td>Locate failed execution unit.</td></tr><tr><td>Control-M</td><td>Job run, command, return code, sysout</td><td>Find the executable or script that failed.</td></tr><tr><td>ECS</td><td>Task/container state, exit code, stopped reason</td><td>Move into container/application evidence.</td></tr><tr><td>CloudWatch</td><td>Exceptions, stack traces, correlation IDs</td><td>Runtime-level failure detail.</td></tr><tr><td>Snowflake</td><td>Query/load/task history and errors</td><td>Identify SQL, schema, load, permission or warehouse failure.</td></tr><tr><td>S3 / files</td><td>Object, manifest, control and reject data</td><td>Validate arrival and file-quality conditions.</td></tr><tr><td>Runbook RAG</td><td>Approved troubleshooting and recovery procedures</td><td>Ground recommended action.</td></tr></tbody></table><p>Every evidence item should carry provenance:</p><pre>{
+  "evidence_id": "ev-013",
+  "type": "snowflake_query",
+  "source_system": "snowflake",
+  "retrieved_at": "2026-08-29T06:16:41Z",
+  "correlation_key": "01c1...",
+  "facts": {
+    "status": "FAILED_WITH_ERROR",
+    "error_code": "002003",
+    "error_message": "invalid identifier 'CAMPAIGN_SOURCE'"
+  }
+}</pre></section>
+
+<section><div class="sc">13 · Normalized failure context</div><h2>Normalize heterogeneous systems before model reasoning</h2><pre>from typing import TypedDict, Literal
+
+class Evidence(TypedDict):
+    evidence_id: str
+    type: str
+    source_system: str
+    correlation_key: str | None
+    facts: dict
+
+class FailureContext(TypedDict, total=False):
+    request_id: str
+    environment: str
+    scheduler_type: Literal["airflow","controlm","ecs","shell","unknown"]
+    workload_name: str
+    run_id: str
+    failed_unit: str
+    evidence: list[Evidence]
+    correlation_keys: dict
+    next_lookup: str | None
+    root_cause_hypothesis: dict | None
+    confidence: float | None
+    proposed_action: dict | None
+    approval_status: str
+    action_result: dict | None</pre><p>This common contract means the reasoning layer does not need to understand every proprietary scheduler response format. It also makes recorded-evidence testing possible without connecting to production.</p></section>
+
+<section><div class="sc">14 · LangGraph</div><h2>Use a stateful investigation graph, not an unconstrained autonomous loop</h2><p>The investigation may discover new evidence, route to another collector, pause for approval and resume later. LangGraph is appropriate because the workflow is stateful and may need checkpoints and interrupts.</p><figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1450 610"><defs><marker id="m2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#6b8aac"/></marker></defs><style>.b{fill:#fff;stroke:#cbddec;stroke-width:2}.x{fill:#edf6ff;stroke:#8fb9e6}.g{fill:#eef9f6;stroke:#91cdbd}.am{fill:#fff7ea;stroke:#e1bd7b}.v{fill:#f5f2ff;stroke:#b6abe4}.t{font:700 19px Inter,Arial;fill:#16304e}.s{font:600 13px Inter,Arial;fill:#5d7086}.l{stroke:#6b8aac;stroke-width:3;fill:none;marker-end:url(#m2)}</style><rect width="1450" height="610" fill="#f8fbff"/><rect x="40" y="60" width="170" height="80" rx="13" class="x"/><text x="125" y="92" text-anchor="middle" class="t">Ingest Event</text><text x="125" y="118" text-anchor="middle" class="s">run identity</text><rect x="250" y="60" width="190" height="80" rx="13" class="v"/><text x="345" y="92" text-anchor="middle" class="t">Route Source</text><text x="345" y="118" text-anchor="middle" class="s">MWAA / CTM / ECS</text><rect x="480" y="60" width="205" height="80" rx="13" class="b"/><text x="582" y="92" text-anchor="middle" class="t">Collect Runtime</text><text x="582" y="118" text-anchor="middle" class="s">scheduler + logs</text><rect x="725" y="60" width="215" height="80" rx="13" class="b"/><text x="832" y="92" text-anchor="middle" class="t">Extract Keys</text><text x="832" y="118" text-anchor="middle" class="s">query / file / API ID</text><rect x="980" y="60" width="220" height="80" rx="13" class="b"/><text x="1090" y="92" text-anchor="middle" class="t">Collect Downstream</text><text x="1090" y="118" text-anchor="middle" class="s">Snowflake / S3 / API</text><rect x="1240" y="60" width="170" height="80" rx="13" class="g"/><text x="1325" y="92" text-anchor="middle" class="t">Reason</text><text x="1325" y="118" text-anchor="middle" class="s">hypothesis</text><path d="M210 100L247 100" class="l"/><path d="M440 100L477 100" class="l"/><path d="M685 100L722 100" class="l"/><path d="M940 100L977 100" class="l"/><path d="M1200 100L1237 100" class="l"/><rect x="980" y="220" width="220" height="86" rx="13" class="v"/><text x="1090" y="254" text-anchor="middle" class="t">Need More Evidence?</text><text x="1090" y="281" text-anchor="middle" class="s">route back to collector</text><path d="M1325 140L1325 180L1090 180L1090 217" class="l"/><path d="M980 263L830 263L830 143" class="l"/><rect x="1240" y="360" width="170" height="86" rx="13" class="am"/><text x="1325" y="394" text-anchor="middle" class="t">Risk / Policy</text><text x="1325" y="421" text-anchor="middle" class="s">read vs write</text><path d="M1325 306L1325 357" class="l"/><rect x="960" y="500" width="240" height="82" rx="13" class="x"/><text x="1080" y="533" text-anchor="middle" class="t">Read-only Result</text><text x="1080" y="559" text-anchor="middle" class="s">diagnosis + recommendation</text><rect x="1215" y="500" width="195" height="82" rx="13" class="am"/><text x="1312" y="533" text-anchor="middle" class="t">Approval</text><text x="1312" y="559" text-anchor="middle" class="s">interrupt / resume</text><path d="M1275 446L1080 497" class="l"/><path d="M1370 446L1312 497" class="l"/></svg><figcaption>Figure 2 — The graph can loop for more evidence instead of forcing a diagnosis prematurely.</figcaption></figure><pre>graph.add_node("route_source", route_source)
+graph.add_node("collect_runtime", collect_runtime)
+graph.add_node("extract_keys", extract_correlation_keys)
+graph.add_node("collect_downstream", collect_downstream_evidence)
+graph.add_node("reason", generate_root_cause_hypothesis)
+graph.add_node("policy", evaluate_action_policy)
+graph.add_node("approval", request_human_approval)
+graph.add_node("execute", execute_governed_action)</pre></section>
+
+<section><div class="sc">15 · Bedrock reasoning</div><h2>The model correlates evidence; it does not own authorization</h2><p>Bedrock can provide the model used for correlation, hypothesis generation and final synthesis. The model receives bounded evidence and approved operational knowledge.</p><h3>The model should do</h3><ul><li>correlate evidence across systems;</li><li>separate confirmed facts from hypotheses;</li><li>request missing evidence;</li><li>rank likely root causes;</li><li>produce an evidence-backed operational explanation.</li></ul><h3>The model should not do</h3><ul><li>decide whether the caller is authorized to modify production;</li><li>execute unrestricted SQL or shell commands;</li><li>invent missing logs;</li><li>bypass approvals;</li><li>claim remediation succeeded without an action result.</li></ul><pre>SYSTEM:
+You are an enterprise operations investigator.
+Use only supplied evidence and approved knowledge.
+For each root-cause statement, return supporting evidence IDs.
+Label unsupported conclusions as hypotheses.
+Ask for more evidence when confidence is insufficient.
+Never claim an action completed unless a tool result proves it.</pre></section>
+
+<section><div class="sc">16 · LangChain and structured output</div><h2>Use LangChain selectively</h2><p>LangChain can reduce boilerplate for Bedrock/model adapters, tools, retrievers and structured output. It does not need to own the architecture.</p><pre>class RootCauseAssessment(BaseModel):
+    classification: Literal[
+        "scheduler","runtime","data","schema",
+        "permission","dependency","unknown"
+    ]
+    summary: str
+    evidence_ids: list[str]
+    confidence: float
+    additional_evidence_required: list[str]
+    recommended_action: str</pre><p>Typed output prevents the next graph node from parsing a free-form paragraph.</p></section>
+
+<section><div class="sc">17 · RAG</div><h2>Logs explain what happened; runbooks explain the approved response</h2><p>Operational RAG can contain curated runbooks, known error patterns, recovery procedures, schema contracts, escalation rules and postmortem lessons. Retrieval should be driven by structured evidence such as platform, failed unit, error class and object name. Authorization filtering remains mandatory.</p></section>
+
+<section><div class="sc">18 · Scenario 1</div><h2>MWAA → CloudWatch → Snowflake</h2><div class="flow"><div class="step"><span class="n">1</span><b>Failure event</b><span>DAG, run and task identity start investigation.</span></div><div class="step"><span class="n">2</span><b>MWAA</b><span>Confirm task failure, retry and operator.</span></div><div class="step"><span class="n">3</span><b>CloudWatch</b><span>Task log exposes Snowflake query ID.</span></div><div class="step"><span class="n">4</span><b>Snowflake</b><span>Query history exposes real SQL error.</span></div><div class="step"><span class="n">5</span><b>RAG</b><span>Runbook defines schema-drift procedure.</span></div><div class="step"><span class="n">6</span><b>Reason</b><span>Correlate schema change with EDS failure.</span></div><div class="step"><span class="n">7</span><b>Policy</b><span>Diagnosis read-only; incident is a write.</span></div><div class="step"><span class="n">8</span><b>Approval</b><span>Approved action executes and is audited.</span></div></div><pre>MWAA DAG: customer_daily_pipeline
+  ↓ task: stage_to_eds
+CloudWatch: SnowflakeProgrammingError
+  query_id = 01bf...
+  ↓
+Snowflake Query History
+  invalid identifier 'CAMPAIGN_SOURCE'
+  ↓
+Runbook: upstream schema drift procedure
+  ↓
+Root cause: schema contract mismatch
+Confidence: 0.94</pre></section>
+
+<section><div class="sc">19 · Scenario 2</div><h2>Control-M → shell → SnowSQL → Snowflake</h2><pre>Control-M
+Job: LOAD_CUSTOMER_EDS
+Status: FAILED
+Command: /apps/customer/load_customer_eds.sh
+Exit code: 1
+      ↓
+Shell log
+SnowSQL failed
+query_id=01c1...
+      ↓
+Snowflake Query History
+Status: FAILED_WITH_ERROR
+Error: invalid identifier 'CAMPAIGN_SOURCE'
+      ↓
+Root cause
+EDS SQL is incompatible with the current upstream schema.</pre><p>After evidence is normalized, the reasoning layer does not care whether the Snowflake query ID came from an Airflow task log or a legacy shell wrapper.</p></section>
+
+<section><div class="sc">20 · Scenario 3</div><h2>ECS → container → CloudWatch → downstream service</h2><pre>ECS task stopped
+  ↓ DescribeTasks
+container exitCode = 1
+  ↓ CloudWatch
+POST /campaign/enrich returned 503
+request_id = api-87451
+  ↓ dependency health tool
+service unavailable
+  ↓ runbook
+retry after health recovery
+  ↓ assessment
+downstream dependency failure</pre></section>
+
+<section><div class="sc">21 · Tool architecture</div><h2>Expose narrow business capabilities</h2><pre>tools/
+├── airflow/
+│   ├── get_dag_run.py
+│   ├── get_task_instances.py
+│   └── get_task_log_reference.py
+├── controlm/
+│   ├── get_job_run.py
+│   └── get_job_output.py
+├── ecs/
+│   ├── get_task.py
+│   └── get_container_log_reference.py
+├── evidence/
+│   ├── get_cloudwatch_logs.py
+│   ├── get_snowflake_query.py
+│   ├── get_load_history.py
+│   └── inspect_s3_object.py
+├── knowledge/
+│   └── search_runbooks.py
+└── action/
+    ├── find_incident.py
+    ├── create_incident.py
+    └── request_retry.py</pre><p>What is intentionally missing: generic shell execution, arbitrary SQL and unrestricted HTTP. Narrow tools create a smaller security and audit surface.</p></section>
+
+<section><div class="sc">22 · Correlation keys</div><h2>Correlation keys connect the enterprise execution chain</h2><table><thead><tr><th>Key</th><th>Connects</th></tr></thead><tbody><tr><td>Airflow run_id / task instance</td><td>Scheduler metadata → task log</td></tr><tr><td>CloudWatch log stream / request ID</td><td>Runtime → application event</td></tr><tr><td>Snowflake query_id</td><td>Application log → query history</td></tr><tr><td>batch_id / load sequence</td><td>Scheduler run → data-layer metadata</td></tr><tr><td>S3 key / manifest</td><td>File ingestion → load history → reject evidence</td></tr><tr><td>Control-M run/order ID</td><td>Scheduler execution → sysout → command</td></tr><tr><td>ECS task ARN</td><td>Task event → container metadata → logs</td></tr><tr><td>incident dedup key</td><td>Investigation → existing issue</td></tr></tbody></table><p>This is a major practical lesson: better upstream observability and consistent correlation IDs make the AI layer more deterministic and less expensive.</p></section>
+
+<section><div class="sc">23 · Policy and approval</div><h2>Autonomous investigation does not imply autonomous remediation</h2><table><thead><tr><th>Risk</th><th>Examples</th><th>Default</th></tr></thead><tbody><tr><td>R0 · Read</td><td>Read DAG status, logs, approved history views</td><td>Automatic within authorization</td></tr><tr><td>R1 · Low-impact write</td><td>Add diagnostic comment</td><td>Policy dependent</td></tr><tr><td>R2 · Operational write</td><td>Create incident, request retry</td><td>Human approval</td></tr><tr><td>R3 · Production change</td><td>Schema/code/config change</td><td>Existing change-management process</td></tr></tbody></table><p>LangGraph interruption/resume fits well at the boundary between analysis and side effects.</p></section>
+
+<section><div class="sc">24 · Idempotency</div><h2>The workflow must be safe to retry</h2><p>An agent can fail after an external side effect succeeds. If an incident was created but the graph crashed before recording the result, retrying can create duplicates unless the action is idempotent.</p><pre>dedup_key = sha256(
+    f"{environment}:{workload}:{run_id}:{failure_signature}"
+).hexdigest()
+
+existing = find_incident(dedup_key)
+if existing:
+    return existing
+
+return create_incident(summary, dedup_key)</pre></section>
+
+<section><div class="sc">25 · MCP and AgentCore</div><h2>MCP can standardize capabilities. AgentCore is optional.</h2><p>The first implementation can run with LangGraph, Python, Bedrock, AWS APIs and Snowflake connectivity on normal application infrastructure. AgentCore becomes useful later when managed runtime, gateway, memory or observability capabilities provide operational value.</p><figure><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1420 710"><defs><marker id="m3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#6686a8"/></marker></defs><style>.b{fill:#fff;stroke:#cadbea;stroke-width:2}.n{fill:#0f2a4c}.bl{fill:#edf6ff;stroke:#8db9e7}.gr{fill:#eef9f6;stroke:#8fcbb9}.vi{fill:#f5f2ff;stroke:#b7abe3}.t{font:700 21px Inter,Arial;fill:#16304e}.s{font:600 14px Inter,Arial;fill:#5d7086}.w{fill:#fff}.l{stroke:#6686a8;stroke-width:3;fill:none;marker-end:url(#m3)}</style><rect width="1420" height="710" fill="#f8fbff"/><text x="60" y="55" class="t" style="font-size:25px">Production evolution — technology supports the architecture</text><rect x="60" y="95" width="290" height="190" rx="18" class="bl"/><text x="205" y="132" text-anchor="middle" class="t">Phase 1 · Core</text><text x="205" y="169" text-anchor="middle" class="s">LangGraph + Python</text><text x="205" y="196" text-anchor="middle" class="s">Amazon Bedrock</text><text x="205" y="223" text-anchor="middle" class="s">mock / read-only tools</text><rect x="390" y="95" width="290" height="190" rx="18" class="b"/><text x="535" y="132" text-anchor="middle" class="t">Phase 2 · Evidence</text><text x="535" y="169" text-anchor="middle" class="s">MWAA + CloudWatch</text><text x="535" y="196" text-anchor="middle" class="s">Snowflake collectors</text><text x="535" y="223" text-anchor="middle" class="s">durable checkpoint</text><rect x="720" y="95" width="290" height="190" rx="18" class="vi"/><text x="865" y="132" text-anchor="middle" class="t">Phase 3 · Enterprise</text><text x="865" y="169" text-anchor="middle" class="s">Control-M + ECS</text><text x="865" y="196" text-anchor="middle" class="s">RAG + identity</text><text x="865" y="223" text-anchor="middle" class="s">MCP capability layer</text><rect x="1050" y="95" width="310" height="190" rx="18" class="gr"/><text x="1205" y="132" text-anchor="middle" class="t">Phase 4 · Managed</text><text x="1205" y="169" text-anchor="middle" class="s">AgentCore Runtime</text><text x="1205" y="196" text-anchor="middle" class="s">Gateway · Memory</text><text x="1205" y="223" text-anchor="middle" class="s">Observability</text><path d="M350 190L387 190" class="l"/><path d="M680 190L717 190" class="l"/><path d="M1010 190L1047 190" class="l"/><rect x="210" y="390" width="1000" height="210" rx="20" class="n"/><text x="710" y="432" text-anchor="middle" class="w" style="font:800 24px Inter,Arial">Architecture remains the same</text><text x="710" y="474" text-anchor="middle" class="w" style="font:600 16px Inter,Arial">failure → evidence → normalized context → reasoning → policy → action</text><text x="710" y="520" text-anchor="middle" class="w" style="font:500 15px Inter,Arial">AgentCore can harden runtime, tool access, memory and observability,</text><text x="710" y="548" text-anchor="middle" class="w" style="font:500 15px Inter,Arial">but it is not required for the core implementation.</text></svg><figcaption>Figure 3 — AgentCore is a production option, not the foundation of the design.</figcaption></figure><h3>MCP</h3><pre>LangGraph Investigator
+      ↓
+MCP / governed capability layer
+      ├── Airflow tools
+      ├── Control-M tools
+      ├── ECS tools
+      ├── Snowflake tools
+      ├── Runbook search
+      └── Jira / incident tools</pre><h3>AgentCore later</h3><ul><li><strong>Runtime:</strong> managed hosting/execution option.</li><li><strong>Gateway:</strong> centralized access to tools/agents and MCP-oriented targets.</li><li><strong>Memory:</strong> managed memory where the use case needs it.</li><li><strong>Observability:</strong> CloudWatch-backed metrics/traces and OTEL-compatible telemetry.</li></ul></section>
+
+<section><div class="sc">26 · Security</div><h2>The agent inherits enterprise boundaries; it does not bypass them</h2><table><thead><tr><th>Control</th><th>Direction</th></tr></thead><tbody><tr><td>Identity</td><td>Propagate caller/service identity into investigation context.</td></tr><tr><td>Tool authorization</td><td>Authorize every tool independently.</td></tr><tr><td>Read roles</td><td>Least-privilege roles for logs, scheduler metadata and Snowflake evidence.</td></tr><tr><td>Secrets</td><td>Enterprise secret management; no credentials in prompts or tool output.</td></tr><tr><td>Data filtering</td><td>Redact secrets/PII before model context where required.</td></tr><tr><td>Write controls</td><td>Separate diagnosis from mutation.</td></tr><tr><td>Audit</td><td>Record evidence, model assessment, approval and action result.</td></tr><tr><td>Prompt/tool defense</td><td>Treat logs and retrieved documents as untrusted data, not instructions.</td></tr></tbody></table></section>
+
+<section><div class="sc">27 · Observability and evaluation</div><h2>The investigator must itself be observable and measurable</h2><p>Trace request/session ID, graph nodes, route decisions, tool authorization, tool latency, evidence IDs, model latency/tokens, retrieval document IDs, approval identity, idempotency keys and action outcomes. AgentCore Observability is one managed option; non-AgentCore OpenTelemetry instrumentation is also valid.</p><p>Before increasing autonomy, build a regression dataset of sanitized historical failures and measure root-cause classification accuracy, evidence precision, unsupported-claim rate, unnecessary-tool-call rate, time to diagnosis, token cost and human override rate.</p></section>
+
+<section><div class="sc">28 · Repository structure</div><h2>Keep implementation understandable</h2><pre>enterprise-ai-operations-agent/
+├── config/
+│   ├── tool_policy.yaml
+│   └── source_routes.yaml
+├── src/
+│   ├── agent/
+│   │   ├── graph.py
+│   │   ├── state.py
+│   │   ├── prompts.py
+│   │   └── reasoning.py
+│   ├── adapters/
+│   │   ├── mwaa.py
+│   │   ├── controlm.py
+│   │   ├── ecs.py
+│   │   └── shell.py
+│   ├── collectors/
+│   │   ├── cloudwatch.py
+│   │   ├── snowflake.py
+│   │   ├── s3.py
+│   │   └── application_api.py
+│   ├── knowledge/
+│   │   └── runbook_retriever.py
+│   ├── policy/
+│   │   ├── authorization.py
+│   │   ├── risk.py
+│   │   └── idempotency.py
+│   └── actions/
+│       ├── incident.py
+│       └── retry.py
+└── tests/
+    ├── unit/
+    ├── integration/
+    └── evaluation/</pre></section>
+
+<section><div class="sc">29 · Roadmap</div><h2>Build depth before breadth</h2><table><thead><tr><th>Phase</th><th>Scope</th><th>Proves</th></tr></thead><tbody><tr><td>1</td><td>LangGraph + Bedrock + mocked evidence</td><td>State, structured reasoning, approval</td></tr><tr><td>2</td><td>Real MWAA + CloudWatch + Snowflake read collectors</td><td>End-to-end evidence diagnosis</td></tr><tr><td>3</td><td>RAG + durable checkpoint + evaluation</td><td>Knowledge, recovery, quality</td></tr><tr><td>4</td><td>Control-M → shell → Snowflake</td><td>Legacy/modern correlation</td></tr><tr><td>5</td><td>ECS + downstream API evidence</td><td>Container investigation</td></tr><tr><td>6</td><td>MCP + governed write tools</td><td>Standard enterprise tool boundary</td></tr><tr><td>7</td><td>AgentCore where justified</td><td>Managed production capabilities</td></tr></tbody></table></section>
+
+<section><div class="sc">30 · Architecture decisions</div><h2>What I deliberately would not do</h2><table><thead><tr><th>Decision</th><th>Why</th></tr></thead><tbody><tr><td>Do not start multi-agent</td><td>A single stateful investigator is easier to secure, evaluate and debug.</td></tr><tr><td>Do not let the LLM inspect everything</td><td>Correlation keys and deterministic collectors reduce cost, latency and hallucination risk.</td></tr><tr><td>Do not expose generic infrastructure tools</td><td>Narrow tools reduce security surface.</td></tr><tr><td>Do not require AgentCore</td><td>The core design should work independently; managed services are selected for operational value.</td></tr><tr><td>Do not use LangChain for everything</td><td>LangGraph owns workflow; LangChain is selective; Python owns deterministic controls.</td></tr><tr><td>Do not treat confidence as proof</td><td>Root-cause claims must cite evidence; low-confidence cases collect more evidence or escalate.</td></tr></tbody></table></section>
+
+<section><div class="sc">31 · Closing</div><h2>The valuable agent is not the one that talks the most. It is the one that can show how it knows.</h2><p class="lead">An enterprise operations agent becomes credible when it can trace a failure through heterogeneous runtime systems, show the evidence behind its conclusion, distinguish facts from hypotheses, preserve state, honor authorization and keep remediation behind governed controls.</p><p>The first practical implementation can be small: <strong>MWAA → CloudWatch → Snowflake → LangGraph → Bedrock → read-only diagnosis</strong>. Once that path is proven, the same normalized failure model can expand to Control-M, legacy shell wrappers, ECS, governed actions, MCP and optional AgentCore services.</p></section>
+
+<section><div class="sc">References</div><h2>Official documentation</h2><ol class="refs"><li><a href="https://docs.aws.amazon.com/mwaa/latest/userguide/access-mwaa-apache-airflow-rest-api.html">Amazon MWAA — Apache Airflow REST API</a></li><li><a href="https://docs.aws.amazon.com/mwaa/latest/userguide/what-is-mwaa.html">Amazon MWAA — service and CloudWatch integration</a></li><li><a href="https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/observability.html">Amazon Bedrock AgentCore — Observability</a></li><li><a href="https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/observability-get-started.html">AgentCore Observability — getting started</a></li><li><a href="https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/gateway-target-http-runtime.html">AgentCore Gateway / Runtime targets</a></li><li><a href="https://docs.langchain.com/oss/python/langgraph/persistence">LangGraph — Persistence</a></li><li><a href="https://docs.langchain.com/oss/python/langgraph/interrupts">LangGraph — Interrupts</a></li></ol></section>
+</main>
+<!-- SITE PLACEMENT RECOMMENDATION
+PRIMARY: INSIGHTS
+URL: /insights/enterprise-ai-operations-agent.html
+Recommended homepage order:
+1) Building a Petabyte-Scale Enterprise Data & AI Platform
+2) Building an Enterprise AI Operations Agent
+3) AI Coding Assistants: From Developer Tools to Agentic Engineering Platforms
+
+After the focused POC is actually run and validated, optionally add a second compact card under Selected Work / Architecture Labs.
+-->
+
+<footer>© 2026 Surendra Mukkamalla. All rights reserved. Reproduction or redistribution without permission is prohibited.</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  const stop = function (e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+    }
+    return false;
+  };
+
+  // Block the common browser copy/select pathways.
+  ['copy','cut','contextmenu','dragstart','selectstart','beforecopy','beforecut']
+    .forEach(function (evt) {
+      document.addEventListener(evt, stop, true);
+      window.addEventListener(evt, stop, true);
+    });
+
+  // Block keyboard shortcuts commonly used to copy/save/view source/print.
+  document.addEventListener('keydown', function (e) {
+    const key = (e.key || '').toLowerCase();
+    const mod = e.ctrlKey || e.metaKey;
+
+    if (mod && ['a','c','x','s','u','p'].includes(key)) {
+      return stop(e);
+    }
+
+    // F12 / common developer-tools shortcuts.
+    if (e.key === 'F12') return stop(e);
+    if (mod && e.shiftKey && ['i','j','c'].includes(key)) return stop(e);
+  }, true);
+
+  // Safari can still create a visual selection in some cases; clear it immediately.
+  document.addEventListener('selectionchange', function () {
+    const sel = window.getSelection ? window.getSelection() : null;
+    if (sel && sel.rangeCount) {
+      try { sel.removeAllRanges(); } catch (_) {}
+    }
+  }, true);
+
+  // Disable text selection through mouse/touch gestures at the document level.
+  document.addEventListener('mousedown', function (e) {
+    // Keep links clickable.
+    if (e.target.closest && e.target.closest('a')) return;
+    if (e.detail > 1) stop(e);
+  }, true);
+})();
+</script>
+
+</body></html>
