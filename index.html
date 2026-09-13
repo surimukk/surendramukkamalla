@@ -202,6 +202,43 @@
     }
   
     .github-disabled { cursor: default; opacity: .72; }
+
+    /* Added 2026-09-13: companion case-study / reference strips.
+       Uses the existing site palette, typography, radius and spacing. */
+    .work-companion {
+      margin-top: 18px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 24px;
+      align-items: center;
+    }
+    .work-companion .companion-label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: .68rem;
+      text-transform: uppercase;
+      letter-spacing: .09em;
+      font-weight: 850;
+      color: var(--accent);
+    }
+    .work-companion.lab-companion .companion-label { color: var(--lab); }
+    .work-companion h3 { margin-bottom: 8px; }
+    .work-companion p { margin: 0; color: var(--muted); font-size: .88rem; }
+    .work-companion .companion-action { justify-self: end; }
+    .portfolio-disclosure {
+      margin-top: 14px;
+      font-size: .76rem;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+    @media (max-width: 900px) {
+      .work-companion { grid-template-columns: 1fr; }
+      .work-companion .companion-action { justify-self: start; }
+    }
 </style>
 
   <style id="site-content-protection">
@@ -280,6 +317,18 @@
             <a class="card-link" href="selected-work/enterprise-data-platform-modernization.html">View case study →</a>
           </article>
         </div>
+
+        <div class="work-companion" aria-label="Detailed selected work case study">
+          <div>
+            <span class="companion-label">Deeper Case Study · Real Work, Sanitized for Public Portfolio</span>
+            <h3>Governed Enterprise Data &amp; Agentic AI Platform</h3>
+            <p>A deeper architecture case study connecting source-specific ingestion, Snowflake Raw → Curated → Enterprise Identity → Gold, governed semantic access, internal/customer boundaries, and AI-agent integration through approved MCP/API paths.</p>
+            <div class="portfolio-disclosure">Based on professional architecture and engineering work. Client names, proprietary code, credentials, exact schemas, business rules and sensitive implementation details are intentionally omitted, renamed or generalized.</div>
+          </div>
+          <div class="companion-action">
+            <a class="btn" href="selected-work/governed-enterprise-data-ai-platform.html">Read detailed case study →</a>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -319,6 +368,17 @@
               <div class="tags"><span class="tag">Evaluation</span><span class="tag">Tokens</span><span class="tag">Cost</span><span class="tag">Quality</span><span class="tag">Observability</span></div>
               <span class="card-link" aria-label="Experiment planned">Experiment / future lab</span>
             </article>
+          </div>
+
+          <div class="work-companion lab-companion" aria-label="Companion reference implementation">
+            <div>
+              <span class="companion-label">Companion Reference Implementation · Synthetic / Clean-Room</span>
+              <h3>Governed Enterprise Data &amp; AI Reference Implementation</h3>
+              <p>A public, synthetic implementation of selected patterns from the detailed case study. It is written separately from scratch with generic source names and sample data, so it demonstrates the engineering approach without publishing client code.</p>
+            </div>
+            <div class="companion-action">
+              <a class="btn" href="architecture-lab/governed-enterprise-data-ai-reference.html">Open reference implementation →</a>
+            </div>
           </div>
         </div>
       </div>
