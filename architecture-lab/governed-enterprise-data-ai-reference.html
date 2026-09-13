@@ -1,1 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Governed Enterprise Data & AI Reference Implementation — synthetic, clean-room reference code by Surendra Mukkamalla." />
+  <meta name="author" content="Surendra Mukkamalla" />
+  <meta name="theme-color" content="#f7f8fa" />
+  <title>Governed Enterprise Data & AI Reference Implementation | Surendra Mukkamalla</title>
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --surface: #ffffff;
+      --surface-soft: #f1f4f7;
+      --text: #14202a;
+      --muted: #5c6975;
+      --line: #dce3e8;
+      --accent: #a93d2d;
+      --accent-dark: #7f2c20;
+      --ink-soft: #263746;
+      --success: #3d6755;
+      --lab: #6b5a91;
+      --shadow: 0 14px 36px rgba(20, 32, 42, 0.07);
+      --radius: 18px;
+      --max: 1160px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; line-height:1.55; -webkit-font-smoothing:antialiased; }
+    a { color:inherit; text-decoration:none; }
+    .shell { width:min(calc(100% - 40px),var(--max)); margin:0 auto; }
+    .site-header { position:sticky; top:0; z-index:40; backdrop-filter:blur(15px); background:rgba(247,248,250,.9); border-bottom:1px solid rgba(220,227,232,.9); }
+    .nav { min-height:76px; display:flex; align-items:center; justify-content:space-between; gap:28px; }
+    .brand { display:flex; flex-direction:column; gap:2px; min-width:250px; }
+    .brand strong { font-size:1.1rem; letter-spacing:.01em; }
+    .brand span { font-size:.78rem; color:var(--muted); }
+    .nav-links { display:flex; gap:24px; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
+    .nav-links a { font-size:.88rem; color:var(--muted); font-weight:650; }
+    .nav-links a:hover { color:var(--accent); }
+    main { padding:72px 0 84px; }
+    .eyebrow { display:block; font-size:.69rem; font-weight:800; text-transform:uppercase; letter-spacing:.12em; color:var(--lab); margin-bottom:18px; }
+    h1 { font-size:clamp(2.15rem,4.15vw,3.65rem); line-height:1.08; letter-spacing:-.038em; max-width:960px; margin:0 0 22px; font-weight:730; }
+    .lede { max-width:880px; font-size:clamp(1rem,1.7vw,1.22rem); color:var(--muted); margin:0 0 28px; }
+    .notice { background:#f2f1f7; border:1px solid #e2dfea; border-radius:18px; padding:20px 22px; margin:28px 0 36px; color:#625d6d; font-size:.91rem; }
+    .notice strong { color:var(--text); }
+    h2 { font-size:clamp(1.55rem,2.5vw,2.15rem); line-height:1.15; letter-spacing:-.02em; margin:54px 0 18px; }
+    h3 { font-size:1.15rem; line-height:1.28; margin:0 0 10px; letter-spacing:-.015em; }
+    p { color:var(--muted); }
+    .grid-2 { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; }
+    .card { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:24px; }
+    .status { display:inline-flex; align-items:center; gap:7px; font-size:.68rem; text-transform:uppercase; letter-spacing:.09em; font-weight:850; color:var(--lab); margin-bottom:18px; }
+    .status::before { content:""; width:7px; height:7px; border-radius:50%; background:currentColor; }
+    .tag { display:inline-block; font-size:.69rem; font-weight:700; padding:5px 8px; background:var(--surface-soft); border-radius:7px; color:var(--ink-soft); margin:3px 3px 0 0; }
+    pre { background:#14202a; color:#e7edf1; border-radius:18px; padding:22px; overflow:auto; font-size:.82rem; line-height:1.55; }
+    code { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+    .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:11px 16px; border-radius:999px; border:1px solid var(--line); background:var(--surface); font-size:.88rem; font-weight:750; margin-top:14px; }
+    .btn:hover { border-color:#c8d1d8; box-shadow:0 8px 20px rgba(20,32,42,.06); }
+    footer { border-top:1px solid var(--line); padding:26px 0 38px; color:var(--muted); font-size:.75rem; }
+    .footer-row { display:flex; justify-content:space-between; gap:20px; align-items:center; flex-wrap:wrap; }
+    @media(max-width:900px){ .grid-2{grid-template-columns:1fr} }
+    @media(max-width:680px){ .shell{width:min(calc(100% - 28px),var(--max))}.site-header{position:static}.nav{flex-direction:column;align-items:flex-start;padding:17px 0;gap:12px}.brand{min-width:0}.nav-links{justify-content:flex-start}main{padding:54px 0 64px} }
+  </style>
+  <style id="site-content-protection">
+    html, body, body * { -webkit-user-select:none !important; -moz-user-select:none !important; -ms-user-select:none !important; user-select:none !important; -webkit-touch-callout:none !important; }
+  </style>
+</head>
+<body oncopy="return false" oncut="return false" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
+<header class="site-header">
+  <div class="shell nav">
+    <a class="brand" href="../index.html#top"><strong>Surendra Mukkamalla</strong><span>Data · Cloud · AI Architecture &amp; Engineering</span></a>
+    <nav class="nav-links" aria-label="Primary navigation">
+      <a href="../index.html#work">Work</a>
+      <a href="../index.html#lab">Architecture Lab</a>
+      <a href="../index.html#insights">Insights</a>
+      <a href="../index.html#capabilities">Capabilities</a>
+      <a href="../index.html#about">About</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="shell">
+    <span class="eyebrow">Architecture Lab · Synthetic / Clean-Room Reference</span>
+    <h1>Governed Enterprise Data &amp; AI Reference Implementation</h1>
+    <p class="lede">A public implementation path that demonstrates selected engineering patterns from the companion Selected Work case study without exposing client source code, data, exact schemas or proprietary business rules.</p>
 
+    <div class="notice"><strong>Important boundary.</strong> The Selected Work case study is based on real professional work. This lab code is written separately from scratch with synthetic data and generic names. It demonstrates the same engineering ideas, but it is not copied or reconstructed client code.</div>
+
+    <div class="grid-2">
+      <article class="card"><span class="status">Reference Pattern</span><h3>Source-aware ingestion</h3><p>Generic configuration examples for batch, incremental/API, CDC and event ingestion, with common audit metadata and replay expectations.</p><span class="tag">Batch</span><span class="tag">CDC</span><span class="tag">API</span><span class="tag">Events</span></article>
+      <article class="card"><span class="status">Reference Pattern</span><h3>Snowflake layered model</h3><p>Small Raw, Curated, Enterprise Identity and Gold examples using synthetic customer records and a stable enterprise identifier.</p><span class="tag">Raw</span><span class="tag">Curated</span><span class="tag">Identity</span><span class="tag">Gold</span></article>
+      <article class="card"><span class="status">Governance Pattern</span><h3>Governed access</h3><p>Illustrative role and row-policy patterns showing how internal analytical access differs from customer-safe consumption.</p><span class="tag">RBAC</span><span class="tag">Row Policy</span><span class="tag">Semantic</span></article>
+      <article class="card"><span class="status">Agent Pattern</span><h3>Read-versus-act routing</h3><p>A minimal Python example routes historical analytical questions to a governed Snowflake tool and current-state/write actions to the owning source-system tool.</p><span class="tag">MCP</span><span class="tag">Agent</span><span class="tag">Tool Routing</span></article>
+    </div>
+
+    <h2>Reference repository structure</h2>
+<pre><code>governed-enterprise-data-ai-reference/
+├── README.md
+├── config/
+│   └── sources.yaml
+├── snowflake/
+│   ├── 01_raw.sql
+│   ├── 02_curated.sql
+│   ├── 03_identity.sql
+│   ├── 04_gold.sql
+│   └── 05_row_access_policy.sql
+└── agent/
+    └── routing_example.py</code></pre>
+
+    <h2>Why this is separate from Selected Work</h2>
+    <p><strong>Selected Work</strong> explains the real architecture problem, design decisions, trade-offs and production considerations. <strong>Architecture Lab</strong> is where I can safely demonstrate implementation patterns using clean-room code and synthetic data.</p>
+
+    <a class="btn" href="../selected-work/governed-enterprise-data-ai-platform.html">Read the real-work case study →</a>
+  </div>
+</main>
+<footer><div class="shell footer-row"><span>© 2026 Surendra Mukkamalla. All rights reserved.</span><span>Enterprise Data · Cloud · Agentic AI</span></div></footer>
+<script>
+  document.addEventListener('contextmenu', function (e) { if (!e.target.closest('a, button, input, textarea')) e.preventDefault(); });
+  document.addEventListener('copy', function (e) { if (!e.target.closest('input, textarea')) e.preventDefault(); });
+  document.addEventListener('keydown', function (e) {
+    const key = (e.key || '').toLowerCase();
+    if ((e.ctrlKey || e.metaKey) && ['c','u','s','a','p','x'].includes(key)) e.preventDefault();
+  });
+</script>
+</body>
+</html>
