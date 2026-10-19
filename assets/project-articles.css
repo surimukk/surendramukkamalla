@@ -1,0 +1,28 @@
+
+/* Four-project editorial system — shared with the original teal portfolio. */
+:root{--accent:#087f73!important;--accent-dark:#075d55!important;--surface-soft:#eaf5f1!important;--success:#087f73!important;--ink-soft:#284b43!important}
+body{font-size:14px!important;line-height:1.67!important}
+.case-main{max-width:1060px;margin:0 auto;padding:18px 24px 65px;color:#18332f}
+.case-intro{padding:42px 0 34px;border-bottom:1px solid #d5e6e0}
+.case-kicker{display:block;font-size:10px;font-weight:850;letter-spacing:.15em;color:#087f73}
+.case-intro h1{max-width:850px;margin:12px 0 18px;font-size:clamp(30px,3.3vw,43px)!important;line-height:1.17}
+.case-lead{font-size:16px;color:#48675e;max-width:850px;line-height:1.75}
+.case-focus{display:inline-block;font-size:11px;color:#075d55;font-weight:750;background:#e6f3ef;border:1px solid #c8e2d8;padding:7px 12px;border-radius:9px}
+.case-context{background:#fff;border:1px solid #d5e6e0;border-left:4px solid #087f73;border-radius:10px;padding:20px 23px;margin-top:24px}
+.case-context strong,.case-disclosure strong{font-size:12px;color:#075d55}.case-context p{margin:7px 0 0;color:#4f6961}
+.case-principles{margin:30px 0 12px;padding:22px 27px;background:#fff;border:1px solid #d5e6e0;border-radius:12px}
+.case-principles h2{font-size:18px!important;margin:0 0 10px!important}.case-principles ul{margin:0;padding-left:20px}
+.case-principles li{margin:6px 0;color:#46655d}
+.case-section{display:grid;grid-template-columns:52px minmax(0,1fr);gap:17px;padding:38px 0;border-bottom:1px solid #d5e6e0}
+.case-number{font-size:15px;font-weight:900;color:#087f73;padding-top:4px}.case-content h2{font-size:24px!important;line-height:1.25!important;margin:0 0 15px!important}
+.case-content p,.case-content li{color:#456158;font-size:14px}.case-content ul{padding-left:22px;margin:14px 0 17px}.case-content li{margin:7px 0}
+.case-figure{background:#fff;border:1px solid #d5e6e0;border-radius:12px;padding:21px 18px;margin:25px 0 6px;overflow:hidden}
+.case-figure figcaption{font-size:12px;font-weight:800;color:#18332f;margin:0 0 17px}
+.case-flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.case-stage{position:relative;min-height:112px;background:#eef8f4;border:1px solid #c7e4d9;border-radius:9px;padding:15px 12px}
+.case-stage:not(:last-child)::after{content:'→';position:absolute;right:-15px;top:37%;font-size:21px;font-weight:900;color:#087f73;z-index:2}
+.case-stage-label{font-size:12px;font-weight:850;color:#075d55}.case-stage p{font-size:11px!important;margin:9px 0 0!important;line-height:1.5;color:#587168}
+.case-disclosure{margin-top:32px;padding:23px 25px;border-radius:12px;background:#eaf5f1;border:1px solid #cde5db}
+.case-disclosure p{font-size:12px;color:#49665c;margin:8px 0 12px}.case-disclosure a{font-size:12px;color:#075d55;font-weight:800}
+@media(max-width:750px){.case-flow{grid-template-columns:repeat(2,minmax(0,1fr))}.case-stage::after{display:none!important}.case-section{grid-template-columns:1fr;gap:4px}.case-main{padding-left:18px;padding-right:18px}}
+@media(max-width:460px){.case-flow{grid-template-columns:1fr}}

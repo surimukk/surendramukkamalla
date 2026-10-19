@@ -1,0 +1,25 @@
+
+:root{--bg:#f5f9f8!important;--paper:#f5f9f8!important;--card:#fff!important;--panel:#fff!important;--surface:#fff!important;--ink:#18332f!important;--text:#18332f!important;--navy:#18332f!important;--muted:#5a716b!important;--line:#d5e6e0!important;--accent:#087f73!important;--accent2:#075d55!important;--blue:#087f73!important;--green:#087f73!important;--lab:#087f73!important}
+html,body{background:#f5f9f8!important;color:#18332f!important;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important}
+h1{font-size:clamp(28px,3.2vw,42px)!important;line-height:1.16!important;letter-spacing:-.028em!important;color:#18332f!important}
+h2,.article h2{font-size:clamp(22px,2.25vw,29px)!important;line-height:1.25!important;color:#18332f!important}
+h3,.article h3{font-size:clamp(17px,1.65vw,21px)!important;line-height:1.35!important;color:#18332f!important}
+.hero{background:linear-gradient(180deg,#fff 0%,#f5f9f8 100%)!important}
+.eyebrow,.kicker,.status,.sc{color:#087f73!important}
+.card,.mini,.note,.callout,.diagram,.step,.story-card,.artcard{border-color:#d5e6e0!important}
+a{transition:color .15s}a:hover{color:#087f73}
+img,svg{max-width:100%}
+.portfolio-nav{position:sticky;top:0;z-index:1000;background:rgba(250,253,252,.97);backdrop-filter:blur(14px);border-bottom:1px solid #d5e6e0}
+.portfolio-nav-inner{max-width:1160px;margin:auto;min-height:68px;padding:12px 22px;display:flex;justify-content:space-between;align-items:center;gap:15px}
+.portfolio-brand{font-size:14px!important;font-weight:850;color:#18332f!important;text-decoration:none!important}
+.portfolio-brand small{display:block;color:#087f73;font-size:10px;font-weight:650;margin-top:3px}
+.portfolio-nav-links{display:flex;gap:18px;flex-wrap:wrap}.portfolio-nav-links a{color:#536c65!important;font-size:12px;font-weight:750;text-decoration:none!important}
+.portfolio-nav-links a:hover{color:#087f73!important}
+.portfolio-crumb{max-width:1160px;margin:18px auto 0;padding:0 22px;color:#5a716b;font-size:12px;font-weight:700}
+.portfolio-crumb a{color:#087f73!important;text-decoration:none!important}
+.portfolio-crumb span{margin:0 8px;color:#9cafa8}
+.portfolio-bottom{max-width:1160px;margin:38px auto;padding:23px 22px;border-top:1px solid #d5e6e0;display:flex;gap:20px;flex-wrap:wrap}
+.portfolio-bottom a{font-size:12px;color:#075d55!important;font-weight:800;text-decoration:none!important}
+body>header:not(.portfolio-nav),body>.site-header,body>.sitebar{display:none!important}
+a:focus-visible{outline:3px solid #087f73;outline-offset:3px}
+@media(max-width:760px){.portfolio-nav-inner{align-items:flex-start;flex-direction:column}.portfolio-nav-links{gap:11px}}

@@ -1,26 +1,31 @@
-SURENDRA MUKKAMALLA WEBSITE PACKAGE
+WEBSITE UPLOAD PACKAGE — DEDUPLICATED ENTERPRISE PROJECTS / ARCHITECTURE LAB
 
-Structure:
-  index.html
-  insights/
-    ai-coding-assistants-agentic-engineering.html
-    enterprise-ai-operations-agent.html
-    petabyte-enterprise-data-ai-platform.html
+Upload the CONTENTS of this ZIP as one website, preserving folder paths.
 
-Deployment:
-1. Upload index.html to the repository root.
-2. Upload the insights folder to the repository root.
-3. Preserve this exact folder structure.
-4. Deploy through your existing Cloudflare Pages/GitHub workflow.
+Homepage: index.html
+Shared styling: assets/site.css and assets/article-theme.css
 
-Navigation:
-- Homepage cards link to the three packaged articles.
-- Article navigation links back to Work, Architecture Lab, Insights, Capabilities and About on index.html.
+ENTERPRISE PROJECTS (4)
+selected-work/enterprise-agentic-ai-architecture.html
+selected-work/metadata-driven-orchestration-framework.html
+selected-work/enterprise-data-platform-modernization.html
+selected-work/governed-enterprise-data-ai-platform.html
 
-Content protection:
-- Text selection is disabled.
-- Right-click/context menu is blocked.
-- Copy/cut/drag/select actions are blocked.
-- Common browser shortcuts for copy/select-all/save/view-source/print are discouraged.
+ARCHITECTURE LAB (3 homepage cards)
+- Enterprise AI Operations Agent: opens insights/enterprise-ai-operations-agent.html (one canonical promoted card)
+- Governed MCP Tool Layer: overview card only; no source page supplied
+- AI Evaluation & Cost Engineering: overview card only; no source page supplied
 
-Important: Browser-side HTML/JavaScript cannot make publicly delivered web content impossible to extract. These controls strongly discourage ordinary copy/paste but are not DRM.
+COMPANION REFERENCE IMPLEMENTATION (not a duplicate homepage card)
+architecture-lab/governed-enterprise-data-ai-reference.html
+Linked directly from the Governed Enterprise Data & Agentic AI Platform case study; links back to the case study.
+
+TECHNICAL INSIGHTS (2 homepage cards)
+insights/petabyte-enterprise-data-ai-platform.html
+insights/ai-coding-assistants-agentic-engineering.html
+
+The Enterprise AI Operations Agent article remains at its original URL for compatibility but is promoted only in Architecture Lab.
+
+Copy deterrents: selection, context menu, copy/cut, drag and common keyboard shortcuts are disabled by browser-side script. This does not guarantee protection and may limit accessibility.
+
+All original HTML articles and diagrams retained. The site has NOT been visually tested in a browser or deployed.
